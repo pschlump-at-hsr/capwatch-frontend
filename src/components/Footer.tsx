@@ -6,6 +6,7 @@ import VisibilityIcon from '@material-ui/icons/Visibility'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import LocationOnIcon from '@material-ui/icons/LocationOn'
 import SettingsIcon from '@material-ui/icons/Settings'
+import { BrowserRouter as Router, Link } from 'react-router-dom'
 
 const useStyles = makeStyles({
   root: {
@@ -27,18 +28,46 @@ export default function LabelBottomNavigation() {
   }
 
   return (
-    <BottomNavigation
-      value={value}
-      onChange={(event, newValue) => {
-        setValue(newValue)
-      }}
-      showLabels
-      className={classes.root}
-    >
-      <BottomNavigationAction label="Alle" value="all" icon={<VisibilityIcon />} />
-      <BottomNavigationAction label="Favoriten" value="favorites" icon={<FavoriteIcon />} />
-      <BottomNavigationAction label="In der Nähe" value="nearby" icon={<LocationOnIcon />} />
-      <BottomNavigationAction label="Einstellungen" value="settings" icon={<SettingsIcon />} />
-    </BottomNavigation>
+    <Router>
+      <BottomNavigation
+        value={value}
+        onChange={(event, newValue) => {
+          setValue(newValue)
+        }}
+        showLabels
+        className={classes.root}
+      >
+        <BottomNavigationAction
+          label="Alle"
+          value="all"
+          icon={<VisibilityIcon />}
+          component={Link}
+          exact
+          to="/"
+        />
+        <BottomNavigationAction
+          label="Favoriten"
+          value="favorites"
+          icon={<FavoriteIcon />}
+          component={Link}
+          exact
+          to="/favorites"
+        />
+        <BottomNavigationAction
+          label="In der Nähe"
+          value="nearby"
+          icon={<LocationOnIcon />}
+          component={Link}
+          to="/nearby"
+        />
+        <BottomNavigationAction
+          label="Einstellungen"
+          value="settings"
+          icon={<SettingsIcon />}
+          component={Link}
+          to="/settings"
+        />
+      </BottomNavigation>
+    </Router>
   )
 }
