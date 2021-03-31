@@ -1,0 +1,5 @@
+node_modules
+build
+.dockerignore
+dockerfiles/Dockerfile
+dockerfiles/Dockerfile.prod
