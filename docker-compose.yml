@@ -5,7 +5,7 @@ services:
     container_name: capwatch-frontend
     build:
       context: .
-      dockerfile: dockerfiles/Dockerfile
+      dockerfile: Dockerfile
     stdin_open: true
     ports:
       - "3000:3000"
