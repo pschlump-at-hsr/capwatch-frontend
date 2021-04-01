@@ -24,7 +24,10 @@ const useStyles = makeStyles({
   }
 });
 
-export default function StoreCard() {
+export default function StoreCard(props: {
+  storeTitle: React.ReactNode;
+  storeType: React.ReactNode;
+}) {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
 
@@ -32,10 +35,10 @@ export default function StoreCard() {
     <Card className={classes.root} variant="outlined">
       <CardContent>
         <Typography variant="h5" component="h2">
-          Migros Säntispark
+          {props.storeTitle}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          Detailhändler
+          {props.storeType}
         </Typography>
       </CardContent>
       <CardContent>
