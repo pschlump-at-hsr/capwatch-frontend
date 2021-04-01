@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  web:
+    container_name: capwatch-frontend
+    build:
+      context: .
+      dockerfile: dockerfiles/Dockerfile
+    stdin_open: true
+    ports:
+      - "3000:3000"
+#  web:
+#    container_name: capwatch-frontend-dev
+#    build:
+#      context: .
+#      dockerfile: dockerfiles/Dockerfile.dev
+#    stdin_open: true
+#    ports:
+#      - "3000:80"
