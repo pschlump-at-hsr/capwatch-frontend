@@ -1,9 +1,9 @@
 # build environment
 FROM node:14.16-alpine AS build
 
-WORKDIR /app
+#WORKDIR /app
 
-COPY .. .
+#COPY .. .
 
 RUN npm ci
 RUN npm run build
