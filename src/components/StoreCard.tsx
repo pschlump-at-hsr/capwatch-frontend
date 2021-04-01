@@ -3,9 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import CostumerCounter from './CostumerCounter';
 import { Grid } from '@material-ui/core';
-import CapacityDisplay from './CapacityDisplay';
 
 const useStyles = makeStyles({
   root: {
@@ -21,13 +19,19 @@ const useStyles = makeStyles({
   },
   pos: {
     marginBottom: 12
+  },
+  card: {
+    border: 'solid'
   }
 });
 
-export default function StoreCard(props: {
-  storeTitle: React.ReactNode;
-  storeType: React.ReactNode;
-}) {
+type StoreCardProps = {
+  name: string;
+  maxCapacity: number;
+  currentCapacity: number;
+};
+
+export default function StoreCard({ name, maxCapacity, currentCapacity }: StoreCardProps) {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
 
@@ -35,19 +39,34 @@ export default function StoreCard(props: {
     <Card className={classes.root} variant="outlined">
       <CardContent>
         <Typography variant="h5" component="h2">
-          {props.storeTitle}
-        </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          {props.storeType}
+          {name}
         </Typography>
       </CardContent>
       <CardContent>
         <Grid container justify="center">
           <Grid item xs={6} md={6} sm={6}>
-            <CostumerCounter />
+            <Card className={classes.root} variant="outlined">
+              <CardContent>
+                <Typography variant="h5" component="h2">
+                  Anzahl Besucher
+                </Typography>
+                <Typography className={classes.pos} color="textSecondary">
+                  {currentCapacity}
+                </Typography>
+              </CardContent>
+            </Card>
           </Grid>
           <Grid item xs={6} md={6} sm={6}>
-            <CapacityDisplay />
+            <Card className={classes.root} variant="outlined">
+              <CardContent>
+                <Typography variant="h5" component="h2">
+                  Erlaubte Anzahl
+                </Typography>
+                <Typography className={classes.pos} color="textSecondary">
+                  {maxCapacity}
+                </Typography>
+              </CardContent>
+            </Card>
           </Grid>
         </Grid>
       </CardContent>
