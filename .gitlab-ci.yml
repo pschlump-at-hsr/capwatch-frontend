@@ -18,8 +18,6 @@ Build:
   # build image for every commit
   stage: build
   script:
-    - ls -lsa
-    - cp * ./dockerfiles/
     # fetches the latest image (not failing if image is not found)
     - docker pull $CI_REGISTRY_IMAGE:latest || true
     # builds the project, passing proxy variables, and vcs vars for LABEL
@@ -32,7 +30,7 @@ Build:
       --build-arg VCS_URL=$CI_PROJECT_URL
       --cache-from $CI_REGISTRY_IMAGE:latest
       --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-      --file ./dockerfiles/Dockerfile .
+      .
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
 
 
