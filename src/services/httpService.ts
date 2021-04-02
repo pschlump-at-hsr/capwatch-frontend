@@ -10,7 +10,8 @@ const httpService = axios.create({
 
 httpService.interceptors.request.use(
   (config) => {
-    config.headers.contentType = 'application/json';
+      // TODO Remove after development, this is for debugging all requests
+    console.log(config);
     return config;
   },
   (error) => Promise.reject(error)

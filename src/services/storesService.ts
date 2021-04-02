@@ -1,6 +1,6 @@
 import httpService from './httpService';
 
 export async function getStores() {
-  const result = await httpService.post('/stores');
-  return result.status === 200;
+  const result = await httpService.get('/stores');
+  return result.data;
 }
