@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { Grid } from '@material-ui/core';
+import { Grid, IconButton } from '@material-ui/core';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
 const useStyles = makeStyles({
   root: {
@@ -26,22 +28,68 @@ const useStyles = makeStyles({
 });
 
 type StoreCardProps = {
+  id: number;
   name: string;
   maxCapacity: number;
   currentCapacity: number;
+  isFavorite: boolean;
 };
 
-export default function StoreCard({ name, maxCapacity, currentCapacity }: StoreCardProps) {
+export default function StoreCard({
+  id,
+  name,
+  maxCapacity,
+  currentCapacity,
+  isFavorite
+}: StoreCardProps) {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
+  const [clicked, setClicked] = useState(isFavorite);
+
+  const handleFavoriteClick = () => {
+    setClicked((prevClicked) => {
+      isFavorite = !prevClicked;
+      if (isFavorite) {
+        const existingFavoriteEntries = localStorage.getItem('favorites') as string;
+        const parsedEntries = JSON.parse(existingFavoriteEntries);
+        const newFavoriteStoreEntry = {
+          id: id,
+          name: name,
+          currentCapacity: currentCapacity,
+          maxCapacity: maxCapacity
+        };
+        parsedEntries.push(newFavoriteStoreEntry);
+        localStorage.setItem('favorites', JSON.stringify(parsedEntries));
+      } else {
+        const existingFavoriteEntries = localStorage.getItem('favorites') as string;
+        const parsedEntries = JSON.parse(existingFavoriteEntries);
+        const updatedEntries = parsedEntries
+          .filter((stores: { id: number }) => stores.id != id)
+          .map((stores: any) => stores);
+        localStorage.setItem('favorites', JSON.stringify(updatedEntries));
+      }
+      return !prevClicked;
+    });
+  };
 
   return (
     <Card className={classes.root} variant="outlined">
-      <CardContent>
-        <Typography variant="h5" component="h2">
-          {name}
-        </Typography>
-      </CardContent>
+      <Grid container justify="center">
+        <Grid item xs={6} md={8} sm={10}>
+          <CardContent>
+            <Typography variant="h5" component="h2">
+              {name}
+            </Typography>
+          </CardContent>
+        </Grid>
+        <Grid item>
+          <CardContent>
+            <IconButton aria-label="add to favorites" onClick={handleFavoriteClick}>
+              {clicked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            </IconButton>
+          </CardContent>
+        </Grid>
+      </Grid>
       <CardContent>
         <Grid container justify="center">
           <Grid item xs={6} md={6} sm={6}>
