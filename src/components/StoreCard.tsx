@@ -46,27 +46,29 @@ export default function StoreCard({
   const bull = <span className={classes.bullet}>•</span>;
   const [clicked, setClicked] = useState(isFavorite);
 
+  // TODO remove handler Function an use custom Hook instead
   const handleFavoriteClick = () => {
     setClicked((prevClicked) => {
       isFavorite = !prevClicked;
       if (isFavorite) {
-        const existingFavoriteEntries = localStorage.getItem('favorites') as string;
-        const parsedEntries = JSON.parse(existingFavoriteEntries);
-        const newFavoriteStoreEntry = {
-          id: id,
-          name: name,
-          currentCapacity: currentCapacity,
-          maxCapacity: maxCapacity
-        };
-        parsedEntries.push(newFavoriteStoreEntry);
-        localStorage.setItem('favorites', JSON.stringify(parsedEntries));
+        const favoritesString = localStorage.getItem('favorites');
+        if (favoritesString) {
+          const parsedEntries = JSON.parse(favoritesString);
+          const newFavoriteStoreEntry = {
+            id: id
+          };
+          parsedEntries.push(newFavoriteStoreEntry);
+          localStorage.setItem('favorites', JSON.stringify(parsedEntries));
+        }
       } else {
-        const existingFavoriteEntries = localStorage.getItem('favorites') as string;
-        const parsedEntries = JSON.parse(existingFavoriteEntries);
-        const updatedEntries = parsedEntries
-          .filter((stores: { id: number }) => stores.id != id)
-          .map((stores: any) => stores);
-        localStorage.setItem('favorites', JSON.stringify(updatedEntries));
+        const favoritesString = localStorage.getItem('favorites');
+        if (favoritesString) {
+          const parsedEntries = JSON.parse(favoritesString);
+          const updatedEntries = parsedEntries
+            .filter((stores: { id: number }) => stores.id != id)
+            .map((stores: any) => stores);
+          localStorage.setItem('favorites', JSON.stringify(updatedEntries));
+        }
       }
       return !prevClicked;
     });

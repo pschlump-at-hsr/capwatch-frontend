@@ -15,19 +15,14 @@ export default function Startpage() {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('stores', JSON.stringify(stores));
-  }, [stores]);
-
-  useEffect(() => {
-    if (localStorage.getItem('favorites') === null) {
-      localStorage.setItem('favorites', '[]');
-    }
+    if (localStorage.getItem('favorites') === null) localStorage.setItem('favorites', '[]');
   }, []);
 
   function isFavorite(storeId: number) {
-    const existingFavoriteEntries = localStorage.getItem('favorites') as string;
-    const parsedEntries = JSON.parse(existingFavoriteEntries);
-    return parsedEntries.some((v: { id: number }) => v.id === storeId);
+    const favoritesString = localStorage.getItem('favorites');
+    if (favoritesString) {
+      return JSON.parse(favoritesString).some((entry: { id: number }) => entry.id === storeId);
+    }
   }
 
   // TODO Implement loading (loading spinner) and error state (error screen)
