@@ -8,57 +8,59 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { Link } from 'react-router-dom';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     textAlign: 'center',
     position: 'fixed',
     left: '0',
     bottom: '0',
-    height: '60px',
-    width: '100%'
+    height: '56px',
+    width: '100%',
+    background: theme.palette.primary.main
+  },
+  navigationIcon: {
+    color: theme.palette.primary.contrastText
   }
-});
+}));
 
 export default function Footer() {
   const classes = useStyles();
-  const [value, setValue] = React.useState('recents');
 
   return (
-    <BottomNavigation
-      value={value}
-      onChange={(event, newValue) => {
-        setValue(newValue);
-      }}
-      showLabels
-      className={classes.root}
-    >
+    <BottomNavigation showLabels className={classes.root}>
       <BottomNavigationAction
         component={Link}
         to="/"
-        label="home"
+        label="Alle"
         value="signal"
-        icon={<VisibilityIcon />}
+        className={classes.navigationIcon}
+        icon={<VisibilityIcon className={classes.navigationIcon} />}
       />
       <BottomNavigationAction
         component={Link}
         to="/favorites"
         label="Favoriten"
         value="signal"
-        icon={<FavoriteIcon />}
+        className={classes.navigationIcon}
+        icon={<FavoriteIcon className={classes.navigationIcon} />}
       />
       <BottomNavigationAction
         component={Link}
         to="/nearby"
         label="In der Nähe"
         value="signal"
-        icon={<LocationOnIcon />}
+        disabled
+        className={classes.navigationIcon}
+        icon={<LocationOnIcon className={classes.navigationIcon} />}
       />
       <BottomNavigationAction
         component={Link}
         to="/settings"
         label="Einstellungen"
         value="signal"
-        icon={<SettingsIcon />}
+        disabled
+        className={classes.navigationIcon}
+        icon={<SettingsIcon className={classes.navigationIcon} />}
       />
     </BottomNavigation>
   );
