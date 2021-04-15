@@ -2,17 +2,31 @@ import React from 'react';
 import { Grid } from '@material-ui/core';
 import StoreCard from './StoreCard';
 import { useStores } from '../hooks/useStores';
+import { Alert } from '@material-ui/lab';
 
 function Favorites() {
-  const { stores } = useStores();
+  const { stores, changeFavorite } = useStores();
+
+  const favoriteStores = stores.filter((store) => store.isFavorite);
 
   return (
     <div className="content">
       <Grid container>
+        {favoriteStores.length < 1 && (
+          <Grid
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            justify="center"
+            style={{ minHeight: '100vh' }}
+          >
+            <Alert severity="info">Info - Keine Stores gefunden</Alert>
+          </Grid>
+        )}
         <Grid item xs={12} md={7} sm={7} lg={5}>
-          {stores
-            .filter((store) => store.isFavorite === true)
-            .map(
+          {favoriteStores.length > 0 &&
+            favoriteStores.map(
               (store: {
                 id: number;
                 name: string;
@@ -27,6 +41,7 @@ function Favorites() {
                   currentCapacity={store.currentCapacity}
                   maxCapacity={store.maxCapacity}
                   isFavorite={store.isFavorite}
+                  changeFavorite={changeFavorite}
                 />
               )
             )}
