@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { Grid, IconButton } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import { useStores } from '../hooks/useStores';
 
 const useStyles = makeStyles({
   root: {
@@ -44,35 +45,7 @@ export default function StoreCard({
 }: StoreCardProps) {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
-  const [clicked, setClicked] = useState(isFavorite);
-
-  // TODO remove handler Function an use custom Hook instead
-  const handleFavoriteClick = () => {
-    setClicked((prevClicked) => {
-      isFavorite = !prevClicked;
-      if (isFavorite) {
-        const favoritesString = localStorage.getItem('favorites');
-        if (favoritesString) {
-          const parsedEntries = JSON.parse(favoritesString);
-          const newFavoriteStoreEntry = {
-            id: id
-          };
-          parsedEntries.push(newFavoriteStoreEntry);
-          localStorage.setItem('favorites', JSON.stringify(parsedEntries));
-        }
-      } else {
-        const favoritesString = localStorage.getItem('favorites');
-        if (favoritesString) {
-          const parsedEntries = JSON.parse(favoritesString);
-          const updatedEntries = parsedEntries
-            .filter((stores: { id: number }) => stores.id != id)
-            .map((stores: any) => stores);
-          localStorage.setItem('favorites', JSON.stringify(updatedEntries));
-        }
-      }
-      return !prevClicked;
-    });
-  };
+  const { changeFavorite } = useStores();
 
   return (
     <Card className={classes.root} variant="outlined">
@@ -86,8 +59,8 @@ export default function StoreCard({
         </Grid>
         <Grid item>
           <CardContent>
-            <IconButton aria-label="add to favorites" onClick={handleFavoriteClick}>
-              {clicked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            <IconButton aria-label="add to favorites" onClick={() => changeFavorite(id)}>
+              {isFavorite === true ? <FavoriteIcon /> : <FavoriteBorderIcon />}
             </IconButton>
           </CardContent>
         </Grid>
