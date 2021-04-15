@@ -6,7 +6,6 @@ import { useStores } from '../hooks/useStores';
 function Favorites() {
   const { stores } = useStores();
 
-  console.log(stores);
   return (
     <div className="content">
       <Grid container>
