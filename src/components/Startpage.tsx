@@ -39,7 +39,7 @@ export default function Startpage() {
                 id={store.id}
                 name={store.name}
                 // TODO change this to value from
-                type={/*store.type.description*/ 'Type'}
+                type={/*store.type.description*/ 'Detailhändler'}
                 currentCapacity={store.currentCapacity}
                 maxCapacity={store.maxCapacity}
                 isFavorite={store.isFavorite}
