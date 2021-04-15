@@ -4,7 +4,7 @@ import { ThemeProvider } from '@material-ui/styles'
 import { BrowserRouter, Route } from 'react-router-dom'
 
 import React from 'react'
-import SearchAppBar from './components/AppBar'
+import Header from './components/Header'
 import Footer from './components/Footer'
 import AppRouter from './AppRouter'
 
@@ -15,7 +15,7 @@ function App() {
         theme={createMuiTheme({ typography: { fontFamily: '"Poppins", sans-serif' } })}
       >
         <CssBaseline />
-        <SearchAppBar />
+        <Header />
         <AppRouter />
         <Footer />
       </ThemeProvider>
