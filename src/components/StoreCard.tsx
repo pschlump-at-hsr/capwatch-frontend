@@ -27,15 +27,13 @@ const useStyles = makeStyles({
     padding: ' 0 40px 0 40px'
   },
   cardTitle: {
-    padding: '16px 0 0 8px',
+    padding: '16px 0 0 8px'
   },
   sliderTitle: {
     marginBottom: '32px'
   },
   favoriteIcon: {
-    paddingTop: 0,
-    paddingLeft: 0,
-    paddingRight: 0
+    padding: '4px 4px 0 0'
   },
   divider: {
     margin: '0 0 24px 0'
@@ -83,12 +81,9 @@ export default function StoreCard({
           </Grid>
 
           <Grid item xs={2}>
+            <Grid container justify="flex-end">
             <CardContent className={classes.favoriteIcon}>
-              <IconButton
-                aria-label="add to favorites"
-                size="medium"
-                onClick={() => changeFavorite(id)}
-              >
+              <IconButton aria-label="add to favorites" onClick={() => changeFavorite(id)}>
                 {isFavorite ? (
                   <FavoriteIcon fontSize={'large'} />
                 ) : (
@@ -96,13 +91,16 @@ export default function StoreCard({
                 )}
               </IconButton>
             </CardContent>
+            </Grid>
           </Grid>
         </Grid>
 
         <Divider className={classes.divider} />
 
         <CardContent className={classes.cardContent}>
-          <Typography variant="body1" className={classes.sliderTitle}>Anzahl Besucher</Typography>
+          <Typography variant="body1" className={classes.sliderTitle}>
+            Anzahl Besucher
+          </Typography>
           <Grid container justify="center">
             <Slider
               disabled
