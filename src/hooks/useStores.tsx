@@ -3,7 +3,7 @@ import { getStores } from '../services/storesService';
 
 // TODO implement this custom Hook for favorites-handling
 export const useStores = () => {
-  const [stores, setStores] = useState<Array<any>>();
+  const [stores, setStores] = useState<Array<any>>([]);
 
   function isFavorite(storeId: number) {
     const favoritesString = localStorage.getItem('favorites');
@@ -11,6 +11,10 @@ export const useStores = () => {
       return JSON.parse(favoritesString).some((entry: { id: number }) => entry.id === storeId);
     }
   }
+
+  useEffect(() => {
+    if (!localStorage.getItem('favorites')) localStorage.setItem('favorites', '[]');
+  }, []);
 
   useEffect(() => {
     const fetchStores = async () => {
