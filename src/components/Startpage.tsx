@@ -15,7 +15,7 @@ export default function Startpage() {
   }, []);
 
   useEffect(() => {
-    if (localStorage.getItem('favorites') === null) localStorage.setItem('favorites', '[]');
+    if (!localStorage.getItem('favorites')) localStorage.setItem('favorites', '[]');
   }, []);
 
   function isFavorite(storeId: number) {
