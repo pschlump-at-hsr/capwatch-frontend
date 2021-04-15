@@ -22,8 +22,12 @@ export default function Startpage() {
             style={{ minHeight: '100vh' }}
           >
             {isLoading && !hasError && <CircularProgress />}
-            {hasError && <Alert severity="error">Error - Please try again later</Alert>}
-            {!isLoading && stores.length < 1 && <Alert severity="info">Info - No stores found</Alert>}
+            {hasError && (
+              <Alert severity="error">Error - Bitte versuchen sie es später nochmals</Alert>
+            )}
+            {!isLoading && !hasError && stores.length < 1 && (
+              <Alert severity="info">Info - Keine Stores gefunden</Alert>
+            )}
           </Grid>
         )}
 

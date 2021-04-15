@@ -7,8 +7,6 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { Link } from 'react-router-dom';
-import muiTheme from '../styles/muiTheme';
-import { getThemeProps } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
