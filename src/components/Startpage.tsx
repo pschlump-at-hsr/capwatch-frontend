@@ -45,6 +45,7 @@ export default function Startpage() {
           >
             {isLoading && !hasError && <CircularProgress />}
             {hasError && <Alert severity="error">Error - Please try again later</Alert>}
+            {stores.length < 1 && <Alert severity="info">Info - No stores found</Alert>}
           </Grid>
         )}
 
