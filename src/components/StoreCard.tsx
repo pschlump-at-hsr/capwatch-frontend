@@ -24,7 +24,7 @@ const useStyles = makeStyles({
     border: 'solid'
   },
   cardTitle: {
-    padding: '24px 0 0 8px'
+    padding: '16px 0 0 8px'
   },
   favoriteIcon: {
     paddingTop: 0,
@@ -32,7 +32,7 @@ const useStyles = makeStyles({
     paddingRight: 0
   },
   divider: {
-    margin: '8px 0 40px 0'
+    margin: '4px 0 32px 0'
   }
 });
 
