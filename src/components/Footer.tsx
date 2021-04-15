@@ -7,17 +7,23 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { Link } from 'react-router-dom';
+import muiTheme from '../styles/muiTheme';
+import { getThemeProps } from '@material-ui/styles';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     textAlign: 'center',
     position: 'fixed',
     left: '0',
     bottom: '0',
-    height: '60px',
-    width: '100%'
+    height: '56px',
+    width: '100%',
+    background: theme.palette.primary.main
+  },
+  navigationIcon: {
+    color: theme.palette.primary.contrastText
   }
-});
+}));
 
 export default function Footer() {
   const classes = useStyles();
@@ -35,30 +41,34 @@ export default function Footer() {
       <BottomNavigationAction
         component={Link}
         to="/"
-        label="home"
+        label="Alle"
         value="signal"
-        icon={<VisibilityIcon />}
+        className={classes.navigationIcon}
+        icon={<VisibilityIcon className={classes.navigationIcon} />}
       />
       <BottomNavigationAction
         component={Link}
         to="/favorites"
         label="Favoriten"
         value="signal"
-        icon={<FavoriteIcon />}
+        className={classes.navigationIcon}
+        icon={<FavoriteIcon className={classes.navigationIcon} />}
       />
       <BottomNavigationAction
         component={Link}
         to="/nearby"
         label="In der Nähe"
         value="signal"
-        icon={<LocationOnIcon />}
+        className={classes.navigationIcon}
+        icon={<LocationOnIcon className={classes.navigationIcon} />}
       />
       <BottomNavigationAction
         component={Link}
         to="/settings"
         label="Einstellungen"
         value="signal"
-        icon={<SettingsIcon />}
+        className={classes.navigationIcon}
+        icon={<SettingsIcon className={classes.navigationIcon} />}
       />
     </BottomNavigation>
   );
