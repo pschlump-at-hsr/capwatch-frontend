@@ -25,17 +25,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Footer() {
   const classes = useStyles();
-  const [value, setValue] = React.useState('recents');
 
   return (
-    <BottomNavigation
-      value={value}
-      onChange={(event, newValue) => {
-        setValue(newValue);
-      }}
-      showLabels
-      className={classes.root}
-    >
+    <BottomNavigation showLabels className={classes.root}>
       <BottomNavigationAction
         component={Link}
         to="/"
@@ -57,6 +49,7 @@ export default function Footer() {
         to="/nearby"
         label="In der Nähe"
         value="signal"
+        disabled
         className={classes.navigationIcon}
         icon={<LocationOnIcon className={classes.navigationIcon} />}
       />
@@ -65,6 +58,7 @@ export default function Footer() {
         to="/settings"
         label="Einstellungen"
         value="signal"
+        disabled
         className={classes.navigationIcon}
         icon={<SettingsIcon className={classes.navigationIcon} />}
       />

@@ -13,12 +13,13 @@ function App() {
     typography: {
       fontFamily: '"Poppins", sans-serif'
     },
+
     palette: {
       primary: {
         main: '#3F51B5'
       },
       secondary: {
-        main: '#3F51B5'
+        main: '#3D5AFE'
       }
     }
   });
