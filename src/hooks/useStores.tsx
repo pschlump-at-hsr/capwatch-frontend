@@ -45,15 +45,16 @@ export const useStores = () => {
         if (store.id === storeId) {
           const initialIsFavorite = store.isFavorite;
           store.isFavorite = !initialIsFavorite;
+
           const favorites = JSON.parse(localStorage.getItem('favorites'));
           if (initialIsFavorite) {
             const index = favorites.indexOf(storeId);
-            if (index >= 0) {
-              favorites.splice(index, 1);
-            }
+            if (index >= 0) favorites.splice(index, 1);
+
             localStorage.setItem('favorites', JSON.stringify(favorites));
           } else {
             favorites.push(storeId);
+            
             localStorage.setItem('favorites', JSON.stringify(favorites));
           }
         }

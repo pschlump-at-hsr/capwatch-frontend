@@ -41,11 +41,11 @@ export default function StoreCard({
   name,
   maxCapacity,
   currentCapacity,
-  isFavorite
+  isFavorite,
+  changeFavorite
 }: StoreCardProps) {
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
-  const { changeFavorite } = useStores();
 
   return (
     <Card className={classes.root} variant="outlined">
@@ -60,7 +60,7 @@ export default function StoreCard({
         <Grid item>
           <CardContent>
             <IconButton aria-label="add to favorites" onClick={() => changeFavorite(id)}>
-              {isFavorite === true ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+              {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
             </IconButton>
           </CardContent>
         </Grid>

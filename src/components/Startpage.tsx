@@ -5,7 +5,7 @@ import { Alert } from '@material-ui/lab';
 import { useStores } from '../hooks/useStores';
 
 export default function Startpage() {
-  const { stores, isLoading, hasError } = useStores();
+  const { stores, isLoading, hasError, changeFavorite } = useStores();
 
   const isEmpty = isLoading || hasError || stores.length < 1;
 
@@ -37,6 +37,7 @@ export default function Startpage() {
                 currentCapacity={store.currentCapacity}
                 maxCapacity={store.maxCapacity}
                 isFavorite={store.isFavorite}
+                changeFavorite={changeFavorite}
               />
             ))}
         </Grid>
