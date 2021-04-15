@@ -11,7 +11,13 @@ import { BrowserRouter } from 'react-router-dom';
 function App() {
   const theme = createMuiTheme({
     typography: {
-      fontFamily: '"Poppins", sans-serif'
+      fontFamily: '"Poppins", sans-serif',
+      h5: {
+        fontWeight: 500
+      },
+      body1: {
+          fontWeight: 600
+      }
     },
     palette: {
       primary: {

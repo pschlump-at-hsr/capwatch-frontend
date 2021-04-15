@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { Avatar, Box, CardHeader, Divider, Grid, IconButton, Slider } from '@material-ui/core';
+import { Avatar, CardHeader, Divider, Grid, IconButton, Slider } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
@@ -23,8 +23,14 @@ const useStyles = makeStyles({
   card: {
     border: 'solid'
   },
+  cardContent: {
+    padding: ' 0 40px 0 40px'
+  },
   cardTitle: {
-    padding: '16px 0 0 8px'
+    padding: '16px 0 0 8px',
+  },
+  sliderTitle: {
+    marginBottom: '32px'
   },
   favoriteIcon: {
     paddingTop: 0,
@@ -32,13 +38,14 @@ const useStyles = makeStyles({
     paddingRight: 0
   },
   divider: {
-    margin: '4px 0 32px 0'
+    margin: '0 0 24px 0'
   }
 });
 
 type StoreCardProps = {
   id: number;
   name: string;
+  type: string;
   maxCapacity: number;
   currentCapacity: number;
   isFavorite: boolean;
@@ -48,6 +55,7 @@ type StoreCardProps = {
 export default function StoreCard({
   id,
   name,
+  type,
   maxCapacity,
   currentCapacity,
   isFavorite,
@@ -68,6 +76,9 @@ export default function StoreCard({
               <Typography variant="h5" component="h2">
                 {name}
               </Typography>
+              <Typography variant="body2" component="h2">
+                {type}
+              </Typography>
             </CardContent>
           </Grid>
 
@@ -78,7 +89,11 @@ export default function StoreCard({
                 size="medium"
                 onClick={() => changeFavorite(id)}
               >
-                {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                {isFavorite ? (
+                  <FavoriteIcon fontSize={'large'} />
+                ) : (
+                  <FavoriteBorderIcon fontSize={'large'} />
+                )}
               </IconButton>
             </CardContent>
           </Grid>
@@ -86,7 +101,8 @@ export default function StoreCard({
 
         <Divider className={classes.divider} />
 
-        <CardContent>
+        <CardContent className={classes.cardContent}>
+          <Typography variant="body1" className={classes.sliderTitle}>Anzahl Besucher</Typography>
           <Grid container justify="center">
             <Slider
               disabled
@@ -100,10 +116,10 @@ export default function StoreCard({
 
           <Grid container direction="row" justify="space-between">
             <Grid item>
-              <Typography variant="h6">0</Typography>
+              <Typography variant="body1">0</Typography>
             </Grid>
             <Grid item>
-              <Typography variant="h6">{maxCapacity}</Typography>
+              <Typography variant="body1">{maxCapacity}</Typography>
             </Grid>
           </Grid>
         </CardContent>
