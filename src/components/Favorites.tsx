@@ -4,7 +4,7 @@ import StoreCard from './StoreCard';
 import { useStores } from '../hooks/useStores';
 
 function Favorites() {
-  const { stores, setStores } = useStores();
+  const { stores } = useStores();
 
   console.log(stores);
   return (

@@ -5,7 +5,7 @@ import { useStores } from '../hooks/useStores';
 
 export default function Startpage() {
   // TODO Optimize type (Array<any>)
-  const { stores, setStores } = useStores();
+  const { stores } = useStores();
 
   // TODO Implement loading (loading spinner) and error state (error screen)
 
