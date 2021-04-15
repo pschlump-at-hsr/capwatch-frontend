@@ -12,6 +12,7 @@ function Favorites() {
   return (
     <div className="content">
       <Grid container>
+        {/*  TODO improve time of message rendering (shortly viewable at component loading*/}
         {favoriteStores.length < 1 && (
           <Grid
             container
