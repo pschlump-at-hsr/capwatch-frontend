@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { Avatar, CardHeader, Grid, IconButton, Slider } from '@material-ui/core';
+import { Avatar, Box, CardHeader, Divider, Grid, IconButton, Slider } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
@@ -24,15 +24,16 @@ const useStyles = makeStyles({
     border: 'solid'
   },
   cardTitle: {
-    paddingRight: 0,
-    paddingLeft: 8,
-    paddingTop: 16
+    padding: '24px 0 0 8px'
   },
   favoriteIcon: {
     paddingTop: 0,
     paddingLeft: 0,
     paddingRight: 0
   },
+  divider: {
+    margin: '8px 0 40px 0'
+  }
 });
 
 type StoreCardProps = {
@@ -56,11 +57,10 @@ export default function StoreCard({
 
   return (
     <Grid container>
-
-      <Card className={classes.root} >
+      <Card className={classes.root}>
         <Grid container justify="space-between">
           <Grid item xs={2}>
-            <CardHeader avatar={<Avatar aria-label="recipe"/>} />
+            <CardHeader avatar={<Avatar aria-label="recipe" />} />
           </Grid>
 
           <Grid item xs={8}>
@@ -84,7 +84,9 @@ export default function StoreCard({
           </Grid>
         </Grid>
 
-        <CardContent >
+        <Divider className={classes.divider} />
+
+        <CardContent>
           <Grid container justify="center">
             <Slider
               defaultValue={currentCapacity}
@@ -95,14 +97,15 @@ export default function StoreCard({
               valueLabelDisplay="on"
             />
           </Grid>
-        {/*  <Grid container justify="center">
-            <Grid item xs={6} sm={6} md={6}>
-              <CustomCardContent title="Anzahl Besucher" capacity={currentCapacity} />
+
+          <Grid container direction="row" justify="space-between">
+            <Grid item>
+              <Typography variant="h6">0</Typography>
             </Grid>
-            <Grid item xs={6} sm={6} md={6}>
-              <CustomCardContent title="Erlaubte Anzahl" capacity={maxCapacity} />
+            <Grid item>
+              <Typography variant="h6">{maxCapacity}</Typography>
             </Grid>
-          </Grid>*/}
+          </Grid>
         </CardContent>
       </Card>
     </Grid>
