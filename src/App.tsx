@@ -13,13 +13,25 @@ function App() {
     typography: {
       fontFamily: '"Poppins", sans-serif'
     },
-
     palette: {
       primary: {
         main: '#3F51B5'
       },
       secondary: {
         main: '#3D5AFE'
+      }
+    },
+    overrides:{
+      MuiSlider: {
+        thumb:{
+          color: '#3F51B5'
+        },
+        track: {
+          color: '#3F51B5'
+        },
+        rail: {
+          color: '#3F51B5'
+        }
       }
     }
   });

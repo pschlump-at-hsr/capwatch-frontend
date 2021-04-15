@@ -89,11 +89,11 @@ export default function StoreCard({
         <CardContent>
           <Grid container justify="center">
             <Slider
+              disabled
+              step={1}
+              aria-labelledby="discrete-slider"
               defaultValue={currentCapacity}
               max={maxCapacity}
-              disabled={true}
-              aria-labelledby="discrete-slider-always"
-              step={1}
               valueLabelDisplay="on"
             />
           </Grid>
