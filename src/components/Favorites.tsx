@@ -29,6 +29,7 @@ function Favorites() {
           {favoriteStores.length > 0 &&
             favoriteStores.map(
               (store: {
+                type: string;
                 id: number;
                 name: string;
                 currentCapacity: number;
@@ -39,8 +40,7 @@ function Favorites() {
                   key={store.id}
                   id={store.id}
                   name={store.name}
-                    // TODO change this to value from
-                  type={/*store.type.description*/ 'Detailhändler'}
+                  type={store.type.description}
                   currentCapacity={store.currentCapacity}
                   maxCapacity={store.maxCapacity}
                   isFavorite={store.isFavorite}
