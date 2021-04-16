@@ -3,34 +3,47 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { Grid, IconButton } from '@material-ui/core';
+import { Avatar, CardHeader, Divider, Grid, IconButton, Slider } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import { useStores } from '../hooks/useStores';
 
 const useStyles = makeStyles({
   root: {
-    margin: 15
+    margin: '24px 24px 0 24px',
+    width: '100%'
   },
   bullet: {
     display: 'inline-block',
     margin: '0 2px',
     transform: 'scale(0.8)'
   },
-  title: {
-    fontSize: 14
-  },
   position: {
     marginBottom: 12
   },
   card: {
     border: 'solid'
+  },
+  cardContent: {
+    padding: ' 0 40px 0 40px'
+  },
+  cardTitle: {
+    padding: '16px 0 0 8px'
+  },
+  sliderTitle: {
+    marginBottom: '32px'
+  },
+  favoriteIcon: {
+    padding: '4px 4px 0 0'
+  },
+  divider: {
+    margin: '0 0 24px 0'
   }
 });
 
 type StoreCardProps = {
   id: number;
   name: string;
+  type: string;
   maxCapacity: number;
   currentCapacity: number;
   isFavorite: boolean;
@@ -40,65 +53,75 @@ type StoreCardProps = {
 export default function StoreCard({
   id,
   name,
+  type,
   maxCapacity,
   currentCapacity,
   isFavorite,
   changeFavorite
 }: StoreCardProps) {
   const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
-
-  type CustomCardContentProps = {
-    title: string,
-    capacity: number,
-  };
-  
-  function CustomCardContent({title, capacity}: CustomCardContentProps) {
-    return (
-      <Card className={classes.root} variant="outlined">
-        <CardContent>
-          <Typography variant="h5" component="h2">
-            {title}
-          </Typography>
-          <Typography className={classes.position} color="textSecondary">
-            {capacity}
-          </Typography>
-        </CardContent>
-      </Card>
-    )
-  }
 
   return (
-    <Card className={classes.root} variant="outlined">
-      <Grid container justify="center">
-        
-        <Grid item xs={6} md={8} sm={10}>
-          <CardContent>
-            <Typography variant="h5" component="h2">
-              {name}
-            </Typography>
-          </CardContent>
+    <Grid container>
+      <Card className={classes.root}>
+        <Grid container justify="space-between">
+          <Grid item xs={2}>
+            <CardHeader avatar={<Avatar aria-label="recipe" />} />
+          </Grid>
+
+          <Grid item xs={8}>
+            <CardContent className={classes.cardTitle}>
+              <Typography variant="h5" component="h2">
+                {name}
+              </Typography>
+              <Typography variant="body2" component="h2">
+                {type}
+              </Typography>
+            </CardContent>
+          </Grid>
+
+          <Grid item xs={2}>
+            <Grid container justify="flex-end">
+            <CardContent className={classes.favoriteIcon}>
+              <IconButton aria-label="add to favorites" onClick={() => changeFavorite(id)}>
+                {isFavorite ? (
+                  <FavoriteIcon fontSize={'large'} />
+                ) : (
+                  <FavoriteBorderIcon fontSize={'large'} />
+                )}
+              </IconButton>
+            </CardContent>
+            </Grid>
+          </Grid>
         </Grid>
 
-        <Grid item> 
-          <CardContent>
-            <IconButton aria-label="add to favorites" size="medium" onClick={() => changeFavorite(id)}>
-              {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-            </IconButton>
-          </CardContent>
-        </Grid>
-      </Grid>
+        <Divider className={classes.divider} />
 
-      <CardContent>
-        <Grid container justify="center">
-          <Grid item xs={6} md={6} sm={6}>
-            <CustomCardContent title="Anzahl Besucher" capacity={currentCapacity}/>
+        <CardContent className={classes.cardContent}>
+          <Typography variant="body1" className={classes.sliderTitle}>
+            Anzahl Besucher
+          </Typography>
+          <Grid container justify="center">
+            <Slider
+              disabled
+              step={1}
+              aria-labelledby="discrete-slider"
+              defaultValue={currentCapacity}
+              max={maxCapacity}
+              valueLabelDisplay="on"
+            />
           </Grid>
-          <Grid item xs={6} md={6} sm={6}>
-            <CustomCardContent title="Erlaubte Anzahl" capacity={maxCapacity}/>
+
+          <Grid container direction="row" justify="space-between">
+            <Grid item>
+              <Typography variant="body1">0</Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="body1">{maxCapacity}</Typography>
+            </Grid>
           </Grid>
-        </Grid>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </Grid>
   );
 }
