@@ -37,7 +37,7 @@ Build:
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
 
 
-sonarqube-check:
+Sonarqube-check:
   image:
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
