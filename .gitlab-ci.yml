@@ -16,9 +16,9 @@ stages:
 services:
   - docker:dind
 
-before_script:
+#before_script:
   # $CI_JOB_TOKEN, a special token provided by GitLab
-  - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
+  #- echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
 
 # Build image for every commit
 Build:
