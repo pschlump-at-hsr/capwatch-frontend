@@ -1,3 +1,9 @@
+# Code Quality
+To ensure our Code Quality we use Sonarqube und Sonarlint.
+##Sonarqube Metrics
+The current state of the Code Quality for the develop Branch can be viewed at the following [Sonarqube Project Page](https://se1-sonarqube.dev.ifs.hsr.ch/dashboard?id=CapwatchFrontend).
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and the
