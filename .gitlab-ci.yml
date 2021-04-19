@@ -15,15 +15,13 @@ stages:
 
 services:
   - docker:dind
-
-#before_script:
-  # $CI_JOB_TOKEN, a special token provided by GitLab
-  #- echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
+  
 
 # Build image for every commit
 Build:
   stage: build
   script:
+    - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
     - docker pull $CI_REGISTRY_IMAGE:$NAME_DEVELOP_TAG || true
     # The built image is tagged locally with the commit SHA
     - >
@@ -68,6 +66,7 @@ Tag develop:
   only:
     - develop
   script:
+    - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
     - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     # Tag it "develop"
     - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:$NAME_DEVELOP_TAG
@@ -82,6 +81,7 @@ Tag master:
     - tags
     - master
   script:
+    - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
     - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     # Tag it with the latest tag
     - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
