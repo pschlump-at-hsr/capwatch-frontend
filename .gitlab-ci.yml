@@ -7,7 +7,7 @@ image: $DOCKER_IMAGE_DOCKER
 
 stages:
   - build
-  - sonarqube-check
+  - sonarqube
   - tag-develop
   - tag-master
   - deploy-develop
@@ -37,7 +37,7 @@ Build:
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
 
 
-Sonarqube-check:
+sonarqube:
   image:
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
