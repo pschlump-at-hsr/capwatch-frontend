@@ -1,5 +1,6 @@
 variables:
   DOCKER_IMAGE_DOCKER: docker:stable-dind
+  SONARQUBE_HOST: https://se1-sonarqube.dev.ifs.hsr.ch
   NAME_LATEST_TAG: latest
   NAME_DEVELOP_TAG: develop
 
@@ -52,7 +53,7 @@ Sonarqube:
     paths:
       - .sonar/cache
   script:
-    - sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.host.url="https://se1-sonarqube.dev.ifs.hsr.ch/" -Dsonar.login="${SONARQUBE_TOKEN}"
+    - sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.host.url="${SONARQUBE_HOST}" -Dsonar.login="${SONARQUBE_TOKEN}"
   allow_failure: true
   only:
     - merge_requests
