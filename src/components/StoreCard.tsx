@@ -47,7 +47,7 @@ type StoreCardProps = {
   maxCapacity: number;
   currentCapacity: number;
   isFavorite: boolean;
-  changeFavorite(): void;
+  changeFavorite: void;
 };
 
 export default function StoreCard({
