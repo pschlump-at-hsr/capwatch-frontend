@@ -8,7 +8,7 @@ image: $DOCKER_IMAGE_DOCKER
 
 stages:
   - build
-  - lint
+#  - lint
   - sonarqube-check
   - tag-develop
   - tag-master
@@ -36,16 +36,16 @@ Build:
       .
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
 
-
-Linting:
-  stage: lint
-  only: ['merge_requests', 'develop', 'master']
-  image:
-    name: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-    entrypoint: [""]
-  script:
-    - apk --update add nodejs npm
-    - npm run lint
+# TODO fix linting integration
+#Linting:
+#  stage: lint
+#  only: ['merge_requests', 'develop', 'master']
+#  image:
+#    name: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+#    entrypoint: [""]
+#  script:
+#    - apk --update add nodejs npm
+#    - npm run lint
 
 Sonarqube:
   stage: sonarqube-check
