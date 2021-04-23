@@ -36,15 +36,15 @@ Build:
       .
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
 
+
 Linting:
   stage: lint
-  image:
-    name: node
-    entrypoint: [ "" ]
   only: ['merge_requests', 'develop', 'master']
+  image:
+    name: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    entrypoint: [""]
   script:
-    - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
-    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - apk --update add nodejs npm
     - npm run lint
 
 Sonarqube:
