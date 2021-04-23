@@ -1,6 +1,6 @@
 node_modules
 build
 .dockerignore
-dockerfiles/Dockerfile
-dockerfiles/Dockerfile.dev
-dockerfiles/Dockerfile.prod
+Dockerfile
+Dockerfile.dev
+Dockerfile.prod
