@@ -38,6 +38,9 @@ Build:
 
 Linting:
   stage: lint
+  image:
+    name: node
+    entrypoint: [ "" ]
   only: ['merge_requests', 'develop', 'master']
   variables:
     GIT_STRATEGY: none
