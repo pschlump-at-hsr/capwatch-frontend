@@ -3,7 +3,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import AppRouter from './AppRouter';
 
-import { CssBaseline } from '@material-ui/core';
+import { Container, CssBaseline } from '@material-ui/core';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import { BrowserRouter } from 'react-router-dom';
@@ -46,7 +46,9 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Header />
-        <AppRouter />
+        <Container>
+          <AppRouter />
+        </Container>
         <Footer />
       </ThemeProvider>
     </BrowserRouter>

@@ -5,7 +5,6 @@ import Startpage from './components/Startpage';
 
 export default function AppRouter() {
   return (
-    <div className="content">
       <Switch>
         <Route exact path="/" component={Startpage} />
         <Route exact path="/favorites" component={Favorites} />
@@ -18,6 +17,5 @@ export default function AppRouter() {
         {/*Backup Route*/}
         <Route path="/" component={Startpage} />
       </Switch>
-    </div>
   );
 }
