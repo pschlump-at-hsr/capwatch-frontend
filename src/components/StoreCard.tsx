@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: theme.spacing(6)
   },
   content: {
-    padding: '16px 40px 16px 40px',
+    padding: '16px 40px 16px 40px'
   },
   favoriteIcon: {
     padding: '8px'
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   slider: {
     paddingBottom: '4px'
-  },
+  }
 }));
 
 export default function StoreCard({

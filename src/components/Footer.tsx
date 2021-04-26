@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles, Theme } from '@material-ui/core/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import VisibilityIcon from '@material-ui/icons/Visibility';
@@ -7,7 +7,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { Link } from 'react-router-dom';
-import { Classes } from '@material-ui/styles/mergeClasses/mergeClasses'
+import { Classes } from '@material-ui/styles/mergeClasses/mergeClasses';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {

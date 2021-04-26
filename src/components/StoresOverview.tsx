@@ -5,7 +5,7 @@ import { Alert } from '@material-ui/lab';
 import { useStores } from '../hooks/useStores';
 import { Store } from '../types/store-types';
 import { makeStyles } from '@material-ui/core/styles';
-import { Classes } from '@material-ui/styles/mergeClasses/mergeClasses'
+import { Classes } from '@material-ui/styles/mergeClasses/mergeClasses';
 
 const useStyles = makeStyles({
   root: {
