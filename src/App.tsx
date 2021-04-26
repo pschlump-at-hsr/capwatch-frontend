@@ -1,7 +1,7 @@
-import React from 'react'
-import Header from './components/Header'
-import Footer from './components/Footer'
-import AppRouter from './AppRouter'
+import React from 'react';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import AppRouter from './AppRouter';
 
 import { CssBaseline } from '@material-ui/core';
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -16,7 +16,7 @@ function App() {
         fontWeight: 500
       },
       body1: {
-          fontWeight: 600
+        fontWeight: 600
       }
     },
     palette: {
@@ -27,9 +27,9 @@ function App() {
         main: '#3D5AFE'
       }
     },
-    overrides:{
+    overrides: {
       MuiSlider: {
-        thumb:{
+        thumb: {
           color: '#3F51B5'
         },
         track: {
@@ -53,4 +53,4 @@ function App() {
   );
 }
 
-export default App;
+export default App

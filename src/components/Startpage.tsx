@@ -33,12 +33,12 @@ export default function Startpage() {
 
         <Grid item xs={12} md={7} sm={7} lg={5}>
           {!isEmpty &&
-            stores.map((store) => (
+            [...stores, ...stores].map((store) => (
               <StoreCard
                 key={store.id}
                 id={store.id}
                 name={store.name}
-                type={store.type.description}
+                type={'store.type.description'}
                 currentCapacity={store.currentCapacity}
                 maxCapacity={store.maxCapacity}
                 isFavorite={store.isFavorite}
