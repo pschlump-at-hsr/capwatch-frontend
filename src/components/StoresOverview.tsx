@@ -4,11 +4,11 @@ import { CircularProgress, Grid } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useStores } from '../hooks/useStores';
 
-type StartpageProps = {
+type StoresOverviewProps = {
   favoritesOnly: boolean;
 };
 
-export default function StoresOverview({ favoritesOnly = false }: StartpageProps) {
+export default function StoresOverview({ favoritesOnly = false }: StoresOverviewProps) {
   const { stores, isLoading, hasError, changeFavorite } = useStores();
 
   let favoriteStores = [];
@@ -34,10 +34,10 @@ export default function StoresOverview({ favoritesOnly = false }: StartpageProps
               <Alert severity="error">Error - Bitte versuchen sie es später nochmals</Alert>
             )}
             {loadingSuccess && stores.length < 1 && (
-              <Alert severity="info">Info - Keine Stores gefunden</Alert>
+              <Alert severity="info">Info - Keine Resultate gefunden</Alert>
             )}
             {favoritesOnly && loadingSuccess && favoriteStores.length < 1 && (
-              <Alert severity="info">Info - Keine Stores gefunden</Alert>
+              <Alert severity="info">Keine Favoriten ausgewählt</Alert>
             )}
           </Grid>
         )}
