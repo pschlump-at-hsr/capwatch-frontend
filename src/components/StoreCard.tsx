@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
@@ -7,39 +7,29 @@ import { Avatar, CardHeader, Divider, Grid, IconButton, Slider } from '@material
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import { Store } from '../types/store-types';
+import { Classes } from '@material-ui/styles/mergeClasses/mergeClasses';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    margin: '24px 24px 0 24px',
     width: '100%'
   },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)'
+  avatar: {
+    width: theme.spacing(6),
+    height: theme.spacing(6)
   },
-  position: {
-    marginBottom: 12
-  },
-  card: {
-    border: 'solid'
-  },
-  cardContent: {
-    padding: ' 0 40px 0 40px'
-  },
-  cardTitle: {
-    padding: '16px 0 0 8px'
-  },
-  sliderTitle: {
-    marginBottom: '32px'
+  content: {
+    padding: '16px 40px 16px 40px',
   },
   favoriteIcon: {
-    padding: '4px 4px 0 0'
+    padding: '8px'
   },
   divider: {
-    margin: '0 0 24px 0'
-  }
-});
+    margin: '8px 0 8px 0'
+  },
+  slider: {
+    paddingBottom: '4px'
+  },
+}));
 
 export default function StoreCard({
   store,
@@ -48,71 +38,49 @@ export default function StoreCard({
   store: Store;
   changeFavorite: (id: string) => void;
 }) {
-  const classes = useStyles();
+  const classes: Classes = useStyles();
 
   return (
-    <Grid container>
-      <Card className={classes.root}>
-        <Grid container justify="space-between">
-          <Grid item xs={2}>
-            <CardHeader avatar={<Avatar aria-label="recipe" />} />
-          </Grid>
+    <Card className={classes.root}>
+      <CardHeader
+        avatar={<Avatar alt="logo" className={classes.avatar} />}
+        action={
+          <IconButton
+            aria-label="add to favorites"
+            className={classes.favoriteIcon}
+            onClick={() => changeFavorite(store.id)}
+          >
+            {store.isFavorite ? (
+              <FavoriteIcon fontSize="large" />
+            ) : (
+              <FavoriteBorderIcon fontSize="large" />
+            )}
+          </IconButton>
+        }
+        title={<Typography variant="h6">{store.name}</Typography>}
+        subheader={<Typography variant="body2">{store.storeType.description}</Typography>}
+      />
 
-          <Grid item xs={8}>
-            <CardContent className={classes.cardTitle}>
-              <Typography variant="h5" component="h2">
-                {store.name}
-              </Typography>
-              <Typography variant="body2" component="h2">
-                {/*TODO delete static description*/}
-                Detailhändler
-                {/*{store.storeType.description}*/}
-              </Typography>
-            </CardContent>
-          </Grid>
+      <Divider className={classes.divider} />
 
-          <Grid item xs={2}>
-            <Grid container justify="flex-end">
-              <CardContent className={classes.favoriteIcon}>
-                <IconButton aria-label="add to favorites" onClick={() => changeFavorite(store.id)}>
-                  {store.isFavorite ? (
-                    <FavoriteIcon fontSize={'large'} />
-                  ) : (
-                    <FavoriteBorderIcon fontSize={'large'} />
-                  )}
-                </IconButton>
-              </CardContent>
-            </Grid>
-          </Grid>
+      <CardContent className={classes.content}>
+        <Typography variant="body1" className={classes.sliderTitle}>
+          Anzahl Besucher
+        </Typography>
+
+        <Slider
+          disabled
+          defaultValue={store.currentCapacity}
+          max={store.maxCapacity}
+          valueLabelDisplay={'on'}
+          className={classes.slider}
+        />
+
+        <Grid container direction="row" justify="space-between" className={classes.sliderText}>
+          <Typography variant="body1">0</Typography>
+          <Typography variant="body1">{store.maxCapacity}</Typography>
         </Grid>
-
-        <Divider className={classes.divider} />
-
-        <CardContent className={classes.cardContent}>
-          <Typography variant="body1" className={classes.sliderTitle}>
-            Anzahl Besucher
-          </Typography>
-          <Grid container justify="center">
-            <Slider
-              disabled
-              step={1}
-              aria-labelledby="discrete-slider"
-              defaultValue={store.currentCapacity}
-              max={store.maxCapacity}
-              valueLabelDisplay="on"
-            />
-          </Grid>
-
-          <Grid container direction="row" justify="space-between">
-            <Grid item>
-              <Typography variant="body1">0</Typography>
-            </Grid>
-            <Grid item>
-              <Typography variant="body1">{store.maxCapacity}</Typography>
-            </Grid>
-          </Grid>
-        </CardContent>
-      </Card>
-    </Grid>
+      </CardContent>
+    </Card>
   );
 }

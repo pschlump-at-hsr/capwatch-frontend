@@ -7,6 +7,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { Link } from 'react-router-dom';
+import { Classes } from '@material-ui/styles/mergeClasses/mergeClasses'
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -23,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export default function Footer() {
-  const classes = useStyles();
+  const classes: Classes = useStyles();
 
   return (
     <BottomNavigation showLabels className={classes.root}>
