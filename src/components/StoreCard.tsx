@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { Avatar, CardHeader, Divider, Grid, IconButton, Slider } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import { Store } from '../types/store-types';
 
 const useStyles = makeStyles({
   root: {
@@ -40,20 +41,13 @@ const useStyles = makeStyles({
   }
 });
 
-type StoreCardProps = {
-  store: {
-    id: number;
-    name: string;
-    type: string;
-    maxCapacity: number;
-    currentCapacity: number;
-    isFavorite: boolean;
-
-  };
-  changeFavorite: any;
-};
-
-export default function StoreCard({ store, changeFavorite }: StoreCardProps) {
+export default function StoreCard({
+  store,
+  changeFavorite
+}: {
+  store: Store;
+  changeFavorite: (id: string) => void;
+}) {
   const classes = useStyles();
 
   return (
@@ -70,7 +64,7 @@ export default function StoreCard({ store, changeFavorite }: StoreCardProps) {
                 {store.name}
               </Typography>
               <Typography variant="body2" component="h2">
-                {store.type}
+                {store.storeType.description}
               </Typography>
             </CardContent>
           </Grid>
@@ -78,10 +72,7 @@ export default function StoreCard({ store, changeFavorite }: StoreCardProps) {
           <Grid item xs={2}>
             <Grid container justify="flex-end">
               <CardContent className={classes.favoriteIcon}>
-                <IconButton
-                  aria-label="add to favorites"
-                  onClick={() => changeFavorite(store.id)}
-                >
+                <IconButton aria-label="add to favorites" onClick={() => changeFavorite(store.id)}>
                   {store.isFavorite ? (
                     <FavoriteIcon fontSize={'large'} />
                   ) : (
