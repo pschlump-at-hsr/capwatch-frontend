@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getStores } from '../services/storesService';
-import { Store } from '../types/store-types.js';
+import { Store } from '../types/store-types';
 
 export const useStores = () => {
   const [stores, setStores] = useState<Array<Store>>([]);
