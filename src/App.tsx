@@ -9,6 +9,9 @@ import { ThemeProvider } from '@material-ui/styles';
 import { BrowserRouter } from 'react-router-dom';
 
 function App() {
+  const primaryColor = '#3F51B5';
+  const secondaryColor = '#3D5AFE';
+
   const theme = createMuiTheme({
     typography: {
       fontFamily: '"Poppins", sans-serif',
@@ -21,22 +24,22 @@ function App() {
     },
     palette: {
       primary: {
-        main: '#3F51B5'
+        main: primaryColor
       },
       secondary: {
-        main: '#3D5AFE'
+        main: secondaryColor
       }
     },
     overrides: {
       MuiSlider: {
         thumb: {
-          color: '#3F51B5'
+          color: primaryColor
         },
         track: {
-          color: '#3F51B5'
+          color: primaryColor
         },
         rail: {
-          color: '#3F51B5'
+          color: primaryColor
         }
       }
     }
