@@ -33,7 +33,7 @@ export default function Startpage() {
 
         <Grid item xs={12} md={7} sm={7} lg={5}>
           {!isEmpty &&
-            [...stores, ...stores].map((store) => (
+            stores.map((store) => (
               <StoreCard
                 key={store.id}
                 id={store.id}
