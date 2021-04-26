@@ -41,24 +41,19 @@ const useStyles = makeStyles({
 });
 
 type StoreCardProps = {
-  id: number;
-  name: string;
-  type: string;
-  maxCapacity: number;
-  currentCapacity: number;
-  isFavorite: boolean;
+  store: {
+    id: number;
+    name: string;
+    type: string;
+    maxCapacity: number;
+    currentCapacity: number;
+    isFavorite: boolean;
+
+  };
   changeFavorite: any;
 };
 
-export default function StoreCard({
-  id,
-  name,
-  type,
-  maxCapacity,
-  currentCapacity,
-  isFavorite,
-  changeFavorite
-}: StoreCardProps) {
+export default function StoreCard({ store, changeFavorite }: StoreCardProps) {
   const classes = useStyles();
 
   return (
@@ -72,10 +67,10 @@ export default function StoreCard({
           <Grid item xs={8}>
             <CardContent className={classes.cardTitle}>
               <Typography variant="h5" component="h2">
-                {name}
+                {store.name}
               </Typography>
               <Typography variant="body2" component="h2">
-                {type}
+                {store.type}
               </Typography>
             </CardContent>
           </Grid>
@@ -83,8 +78,11 @@ export default function StoreCard({
           <Grid item xs={2}>
             <Grid container justify="flex-end">
               <CardContent className={classes.favoriteIcon}>
-                <IconButton aria-label="add to favorites" onClick={() => changeFavorite(id)}>
-                  {isFavorite ? (
+                <IconButton
+                  aria-label="add to favorites"
+                  onClick={() => changeFavorite(store.id)}
+                >
+                  {store.isFavorite ? (
                     <FavoriteIcon fontSize={'large'} />
                   ) : (
                     <FavoriteBorderIcon fontSize={'large'} />
@@ -106,8 +104,8 @@ export default function StoreCard({
               disabled
               step={1}
               aria-labelledby="discrete-slider"
-              defaultValue={currentCapacity}
-              max={maxCapacity}
+              defaultValue={store.currentCapacity}
+              max={store.maxCapacity}
               valueLabelDisplay="on"
             />
           </Grid>
@@ -117,7 +115,7 @@ export default function StoreCard({
               <Typography variant="body1">0</Typography>
             </Grid>
             <Grid item>
-              <Typography variant="body1">{maxCapacity}</Typography>
+              <Typography variant="body1">{store.maxCapacity}</Typography>
             </Grid>
           </Grid>
         </CardContent>
