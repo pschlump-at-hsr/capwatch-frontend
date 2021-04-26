@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { getStores } from '../services/storesService';
+import { FavoriteStore, Store } from '../types/store-types'
 
 export const useStores = () => {
-  const [stores, setStores] = useState<Array<any>>([]);
+  const [stores, setStores] = useState<Array<Store>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [hasError, setHasError] = useState<boolean>(false);
 
@@ -33,8 +34,8 @@ export const useStores = () => {
     fetchStores();
   }, []);
 
-  const changeFavorite = (storeId: number) => {
-    const updatedStores = stores.map((store) => {
+  const changeFavorite = (storeId: string) => {
+    const updatedStores = stores.map((store: FavoriteStore) => {
       if (store.id === storeId) {
         const initialIsFavorite = store.isFavorite;
         store.isFavorite = !initialIsFavorite;
