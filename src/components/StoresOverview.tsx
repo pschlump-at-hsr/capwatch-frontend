@@ -3,7 +3,7 @@ import StoreCard from './StoreCard';
 import { CircularProgress, Grid } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useStores } from '../hooks/useStores';
-import { Store } from '../types/store-types.js';
+import { Store } from '../types/store-types';
 
 export default function StoresOverview({ favoritesOnly = false }: { favoritesOnly: boolean }) {
   const { stores, isLoading, hasError, changeFavorite } = useStores();

@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { Avatar, CardHeader, Divider, Grid, IconButton, Slider } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import { Store } from '../types/store-types.js';
+import { Store } from '../types/store-types';
 
 const useStyles = makeStyles({
   root: {
