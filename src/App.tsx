@@ -1,14 +1,17 @@
-import React from 'react'
-import Header from './components/Header'
-import Footer from './components/Footer'
-import AppRouter from './AppRouter'
+import React from 'react';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import AppRouter from './AppRouter';
 
-import { CssBaseline } from '@material-ui/core';
+import { Container, CssBaseline } from '@material-ui/core';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import { BrowserRouter } from 'react-router-dom';
 
 function App() {
+  const primaryColor = '#3F51B5';
+  const secondaryColor = '#3D5AFE';
+
   const theme = createMuiTheme({
     typography: {
       fontFamily: '"Poppins", sans-serif',
@@ -16,27 +19,27 @@ function App() {
         fontWeight: 500
       },
       body1: {
-          fontWeight: 600
+        fontWeight: 600
       }
     },
     palette: {
       primary: {
-        main: '#3F51B5'
+        main: primaryColor
       },
       secondary: {
-        main: '#3D5AFE'
+        main: secondaryColor
       }
     },
-    overrides:{
+    overrides: {
       MuiSlider: {
-        thumb:{
-          color: '#3F51B5'
+        thumb: {
+          color: primaryColor
         },
         track: {
-          color: '#3F51B5'
+          color: primaryColor
         },
         rail: {
-          color: '#3F51B5'
+          color: primaryColor
         }
       }
     }
@@ -46,11 +49,13 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Header />
-        <AppRouter />
+        <Container>
+          <AppRouter />
+        </Container>
         <Footer />
       </ThemeProvider>
     </BrowserRouter>
   );
 }
 
-export default App;
+export default App

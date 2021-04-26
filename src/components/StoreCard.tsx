@@ -47,7 +47,7 @@ type StoreCardProps = {
   maxCapacity: number;
   currentCapacity: number;
   isFavorite: boolean;
-  changeFavorite: void;
+  changeFavorite: any;
 };
 
 export default function StoreCard({
@@ -82,15 +82,15 @@ export default function StoreCard({
 
           <Grid item xs={2}>
             <Grid container justify="flex-end">
-            <CardContent className={classes.favoriteIcon}>
-              <IconButton aria-label="add to favorites" onClick={() => changeFavorite(id)}>
-                {isFavorite ? (
-                  <FavoriteIcon fontSize={'large'} />
-                ) : (
-                  <FavoriteBorderIcon fontSize={'large'} />
-                )}
-              </IconButton>
-            </CardContent>
+              <CardContent className={classes.favoriteIcon}>
+                <IconButton aria-label="add to favorites" onClick={() => changeFavorite(id)}>
+                  {isFavorite ? (
+                    <FavoriteIcon fontSize={'large'} />
+                  ) : (
+                    <FavoriteBorderIcon fontSize={'large'} />
+                  )}
+                </IconButton>
+              </CardContent>
             </Grid>
           </Grid>
         </Grid>
