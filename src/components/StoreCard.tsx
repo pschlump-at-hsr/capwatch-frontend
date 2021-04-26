@@ -64,7 +64,9 @@ export default function StoreCard({
                 {store.name}
               </Typography>
               <Typography variant="body2" component="h2">
-                {store.storeType.description}
+                {/*TODO delete static description*/}
+                Detailhändler
+                {/*{store.storeType.description}*/}
               </Typography>
             </CardContent>
           </Grid>
