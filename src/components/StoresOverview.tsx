@@ -4,10 +4,18 @@ import { CircularProgress, Grid } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useStores } from '../hooks/useStores';
 
-export default function Startpage() {
+type StoresOverviewProps = {
+  favoritesOnly: boolean;
+};
+
+export default function StoresOverview({ favoritesOnly = false }: StoresOverviewProps) {
   const { stores, isLoading, hasError, changeFavorite } = useStores();
 
+  let favoriteStores = [];
+  if (favoritesOnly) favoriteStores = stores.filter((store) => store.isFavorite);
+
   const isEmpty = isLoading || hasError || stores.length < 1;
+  const loadingSuccess = !isLoading && !hasError;
 
   return (
     <div className="content">
@@ -25,23 +33,27 @@ export default function Startpage() {
             {hasError && (
               <Alert severity="error">Error - Bitte versuchen sie es später nochmals</Alert>
             )}
-            {!isLoading && !hasError && stores.length < 1 && (
-              <Alert severity="info">Info - Keine Stores gefunden</Alert>
+            {loadingSuccess && stores.length < 1 && (
+              <Alert severity="info">Info - Keine Resultate gefunden</Alert>
+            )}
+            {favoritesOnly && loadingSuccess && favoriteStores.length < 1 && (
+              <Alert severity="info">Keine Favoriten ausgewählt</Alert>
             )}
           </Grid>
         )}
 
         <Grid item xs={12} md={7} sm={7} lg={5}>
           {!isEmpty &&
+            !favoritesOnly &&
             stores.map((store) => (
+              <StoreCard key={store.id} store={store} changeFavorite={changeFavorite} />
+            ))}
+          {!isEmpty &&
+            favoritesOnly &&
+            favoriteStores.map((favoriteStore) => (
               <StoreCard
-                key={store.id}
-                id={store.id}
-                name={store.name}
-                type={'store.type.description'}
-                currentCapacity={store.currentCapacity}
-                maxCapacity={store.maxCapacity}
-                isFavorite={store.isFavorite}
+                key={favoriteStore.id}
+                store={favoriteStore}
                 changeFavorite={changeFavorite}
               />
             ))}
