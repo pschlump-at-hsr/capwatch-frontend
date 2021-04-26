@@ -1,18 +1,14 @@
 import { useState, useEffect } from 'react';
 import { getStores } from '../services/storesService';
-import { FavoriteStore, Store } from '../types/store-types'
+import { FavoriteStore, Store } from '../types/store-types.js';
 
 export const useStores = () => {
   const [stores, setStores] = useState<Array<Store>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [hasError, setHasError] = useState<boolean>(false);
 
-  function isFavorite(storeId: number) {
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '{}');
-    if (favorites) {
-      return favorites.some((id: number) => id === storeId);
-    }
-  }
+  const isFavorite = (storeId: string) =>
+    JSON.parse(localStorage.getItem('favorites') || '{}').some((id: string) => id === storeId);
 
   useEffect(() => {
     if (!localStorage.getItem('favorites')) localStorage.setItem('favorites', '[]');
@@ -21,7 +17,7 @@ export const useStores = () => {
       setIsLoading(true);
       try {
         const storesData = await getStores();
-        storesData.map((store: { id: number; isFavorite: boolean }) => {
+        storesData.map((store: { id: string; isFavorite: boolean }) => {
           isFavorite(store.id) ? (store.isFavorite = true) : (store.isFavorite = false);
         });
         setStores(storesData);
@@ -44,15 +40,12 @@ export const useStores = () => {
         if (initialIsFavorite) {
           const index = favorites.indexOf(storeId);
           if (index >= 0) favorites.splice(index, 1);
-
           localStorage.setItem('favorites', JSON.stringify(favorites));
         } else {
           favorites.push(storeId);
-
           localStorage.setItem('favorites', JSON.stringify(favorites));
         }
       }
-
       return store;
     });
 
