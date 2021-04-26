@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getStores } from '../services/storesService';
-import { FavoriteStore, Store } from '../types/store-types.js';
+import { Store } from '../types/store-types.js';
 
 export const useStores = () => {
   const [stores, setStores] = useState<Array<Store>>([]);
@@ -17,8 +17,8 @@ export const useStores = () => {
       setIsLoading(true);
       try {
         const storesData = await getStores();
-        storesData.map((store: { id: string; isFavorite: boolean }) => {
-          isFavorite(store.id) ? (store.isFavorite = true) : (store.isFavorite = false);
+        storesData.forEach((store: { id: string; isFavorite: boolean }) => {
+          store.isFavorite = isFavorite(store.id);
         });
         setStores(storesData);
       } catch (error) {
@@ -31,7 +31,7 @@ export const useStores = () => {
   }, []);
 
   const changeFavorite = (storeId: string) => {
-    const updatedStores = stores.map((store: FavoriteStore) => {
+    const updatedStores = stores.map((store: Store) => {
       if (store.id === storeId) {
         const initialIsFavorite = store.isFavorite;
         store.isFavorite = !initialIsFavorite;

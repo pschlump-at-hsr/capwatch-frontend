@@ -3,13 +3,13 @@ import StoreCard from './StoreCard';
 import { CircularProgress, Grid } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { useStores } from '../hooks/useStores';
-import { FavoriteStore } from '../types/store-types';
+import { Store } from '../types/store-types';
 
 export default function StoresOverview({ favoritesOnly = false }: { favoritesOnly: boolean }) {
   const { stores, isLoading, hasError, changeFavorite } = useStores();
 
-  let favoriteStores: FavoriteStore[] = [];
-  if (favoritesOnly) favoriteStores = stores.filter((store) => store.isFavorite);
+  let favoriteStores: Store[] = [];
+  if (favoritesOnly) favoriteStores = stores.filter((store: Store) => store.isFavorite);
 
   const isEmpty = isLoading || hasError || stores.length < 1;
   const loadingSuccess = !isLoading && !hasError;
@@ -42,7 +42,7 @@ export default function StoresOverview({ favoritesOnly = false }: { favoritesOnl
         <Grid item xs={12} md={7} sm={7} lg={5}>
           {!isEmpty &&
             !favoritesOnly &&
-            stores.map((store) => (
+            stores.map((store: Store) => (
               <StoreCard key={store.id} store={store} changeFavorite={changeFavorite} />
             ))}
           {!isEmpty &&

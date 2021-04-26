@@ -10,9 +10,6 @@ export type Store = {
     storeType: {
         id: string,
         description: string
-    }
-};
-
-export type FavoriteStore = Store & {
+    },
     isFavorite: boolean
 };

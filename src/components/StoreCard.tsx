@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { Avatar, CardHeader, Divider, Grid, IconButton, Slider } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import { FavoriteStore } from '../types/store-types';
+import { Store } from '../types/store-types';
 
 const useStyles = makeStyles({
   root: {
@@ -45,7 +45,7 @@ export default function StoreCard({
   store,
   changeFavorite
 }: {
-  store: FavoriteStore;
+  store: Store;
   changeFavorite: (id: string) => void;
 }) {
   const classes = useStyles();
