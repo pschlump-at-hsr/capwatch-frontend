@@ -38,7 +38,7 @@ export default function Startpage() {
                 key={store.id}
                 id={store.id}
                 name={store.name}
-                type={store.type.description}
+                type={'store.type.description'}
                 currentCapacity={store.currentCapacity}
                 maxCapacity={store.maxCapacity}
                 isFavorite={store.isFavorite}

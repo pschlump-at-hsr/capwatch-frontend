@@ -21,7 +21,7 @@
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
-    "lint": "eslint src/**/*.{js,ts,tsx} --fix",
+    "lint": "eslint src/**/*.{js,jsx,ts,tsx} --fix",
     "commit": "cz"
   },
   "eslintConfig": {
