@@ -12,7 +12,7 @@ function App() {
   const primaryColor = '#3F51B5';
   const secondaryColor = '#3D5AFE';
 
-  const prefersDarkMode = !useMediaQuery('(prefers-color-scheme: dark)');
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
   const theme = useMemo(
     () =>
