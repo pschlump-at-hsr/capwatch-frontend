@@ -8,7 +8,7 @@ image: $DOCKER_IMAGE_DOCKER
 
 stages:
   - build
-#  - lint
+  - lint
   - sonarqube-check
   - tag-develop
   - tag-master
