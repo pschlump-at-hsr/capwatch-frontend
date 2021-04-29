@@ -8,8 +8,9 @@ image: $DOCKER_IMAGE_DOCKER
 
 stages:
   - build
-  - lint
+  - sonarqube-build
   - sonarqube-check
+  - lint
   - tag-develop
   - tag-master
   - deploy-develop
@@ -37,15 +38,23 @@ Build:
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
 
 
-Linting:
-  stage: lint
-  only: ['merge_requests', 'develop', 'master']
-  image:
-    name: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-    entrypoint: [""]
-  script:
-    - apk --update add nodejs npm
-    - npm run lint
+Sonarqube-Build:
+   stage: sonarqube-build
+   script: 
+      - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
+      - docker pull $CI_REGISTRY_IMAGE:$NAME_DEVELOP_TAG || true
+      # The built image is tagged locally with the commit SHA
+      - >
+        docker build
+        --pull
+        --file Dockerfile.dev
+        --build-arg VCS_REF=$CI_COMMIT_SHA
+        --build-arg VCS_URL=$CI_PROJECT_URL
+        --cache-from $CI_REGISTRY_IMAGE:$NAME_DEVELOP_TAG
+        --tag $CI_REGISTRY_IMAGE:${CI_COMMIT_SHA}_Dev_Build
+        .
+      - docker push $CI_REGISTRY_IMAGE:${CI_COMMIT_SHA}_Dev_Build
+   only: ['merge_requests', 'develop', 'master']
 
 
 Sonarqube:
@@ -66,6 +75,17 @@ Sonarqube:
       - .sonar/cache
   script:
     - sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.host.url="${SONARQUBE_HOST}" -Dsonar.login="${SONARQUBE_TOKEN}"
+
+Linting:
+  stage: lint
+  only: ['merge_requests', 'develop', 'master']
+  image:
+    name: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    entrypoint: [""]
+  script:
+    - apk --update add nodejs npm
+    - npm run lint
+
 
 Tag develop:
   stage: tag-develop
