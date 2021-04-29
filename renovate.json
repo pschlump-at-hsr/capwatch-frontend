@@ -1,7 +1,12 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base"
+    "config:base",
+    "group:linters",
+    "group:linters",
+    "group:recommended",
+    ":semanticCommits",
+    ":semanticCommitTypeAll(build)"
   ],
   "prConcurrentLimit": 5
 }

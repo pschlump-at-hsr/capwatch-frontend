@@ -13,6 +13,10 @@
     "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
+    "linebreak-style": [
+      "error",
+      "windows"
+    ],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "react/prop-types": "warn",
@@ -23,5 +27,12 @@
       "pragma": "React",
       "version": "detect"
     }
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "src/**/*.{js,jsx,ts,tsx}"
+      ]
+    }
+  ]
 }

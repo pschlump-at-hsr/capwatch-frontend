@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles'
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import VisibilityIcon from '@material-ui/icons/Visibility';
@@ -7,10 +7,10 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { Link } from 'react-router-dom';
+import { Classes } from '@material-ui/styles/mergeClasses/mergeClasses'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    textAlign: 'center',
     position: 'fixed',
     left: '0',
     bottom: '0',
@@ -18,13 +18,13 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     background: theme.palette.primary.main
   },
-  navigationIcon: {
-    color: theme.palette.primary.contrastText
+  navigationItem: {
+    color: '#FFF'
   }
 }));
 
 export default function Footer() {
-  const classes = useStyles();
+  const classes: Classes = useStyles();
 
   return (
     <BottomNavigation showLabels className={classes.root}>
@@ -32,35 +32,31 @@ export default function Footer() {
         component={Link}
         to="/"
         label="Alle"
-        value="signal"
-        className={classes.navigationIcon}
-        icon={<VisibilityIcon className={classes.navigationIcon} />}
+        className={classes.navigationItem}
+        icon={<VisibilityIcon className={classes.navigationItem} />}
       />
       <BottomNavigationAction
         component={Link}
         to="/favorites"
         label="Favoriten"
-        value="signal"
-        className={classes.navigationIcon}
-        icon={<FavoriteIcon className={classes.navigationIcon} />}
+        className={classes.navigationItem}
+        icon={<FavoriteIcon className={classes.navigationItem} />}
       />
       <BottomNavigationAction
         component={Link}
         to="/nearby"
         label="In der Nähe"
-        value="signal"
         disabled
-        className={classes.navigationIcon}
-        icon={<LocationOnIcon className={classes.navigationIcon} />}
+        className={classes.navigationItem}
+        icon={<LocationOnIcon className={classes.navigationItem} />}
       />
       <BottomNavigationAction
         component={Link}
         to="/settings"
         label="Einstellungen"
-        value="signal"
         disabled
-        className={classes.navigationIcon}
-        icon={<SettingsIcon className={classes.navigationIcon} />}
+        className={classes.navigationItem}
+        icon={<SettingsIcon className={classes.navigationItem} />}
       />
     </BottomNavigation>
   );

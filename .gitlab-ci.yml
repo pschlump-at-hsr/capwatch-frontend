@@ -58,6 +58,7 @@ Sonarqube:
     # Tells git to fetch all the branches of the project, required by the analysis task
     GIT_DEPTH: "0"
   only: ['merge_requests', 'develop', 'master']
+  allow_failure: true
   cache:
     key: "${CI_JOB_NAME}"
     paths:

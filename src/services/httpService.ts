@@ -1,8 +1,7 @@
 import axios from 'axios';
-import storesApi from '../config/storesApi';
 
 const httpService = axios.create({
-  baseURL: storesApi.baseUrl,
+  baseURL: process.env.REACT_APP_BACKEND_API_URL,
   headers: {
     'Content-Type': 'application/json'
   }
@@ -10,8 +9,6 @@ const httpService = axios.create({
 
 httpService.interceptors.request.use(
   (config) => {
-      // TODO Remove after development, this is for debugging all requests
-    console.log(config);
     return config;
   },
   (error) => Promise.reject(error)
