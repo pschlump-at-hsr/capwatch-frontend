@@ -84,6 +84,7 @@ Linting:
     entrypoint: [""]
   script:
     - apk --update add nodejs npm
+    - npm install eslint
     - npm run lint
 
 
