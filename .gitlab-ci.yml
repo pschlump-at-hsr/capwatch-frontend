@@ -80,7 +80,7 @@ Linting:
   stage: lint
   only: ['merge_requests', 'develop', 'master']
   image:
-    name: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    name: $CI_REGISTRY_IMAGE:${CI_COMMIT_SHA}_Dev_Build
     entrypoint: [""]
   script:
     - apk --update add nodejs npm
