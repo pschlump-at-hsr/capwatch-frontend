@@ -50,9 +50,9 @@ Sonarqube-Build:
         --build-arg VCS_REF=$CI_COMMIT_SHA
         --build-arg VCS_URL=$CI_PROJECT_URL
         --cache-from $CI_REGISTRY_IMAGE:$NAME_DEVELOP_TAG
-        --tag $CI_REGISTRY_IMAGE:${CI_COMMIT_SHA}_Dev_Build
+        --tag $CI_REGISTRY_IMAGE:${CI_COMMIT_SHA}-${NAME_DEVELOP_TAG}
         .
-      - docker push $CI_REGISTRY_IMAGE:${CI_COMMIT_SHA}_Dev_Build
+      - docker push $CI_REGISTRY_IMAGE:${CI_COMMIT_SHA}-${NAME_DEVELOP_TAG}
    only: ['merge_requests', 'develop', 'master']
 
 
@@ -80,7 +80,7 @@ Linting:
   stage: lint
   only: ['merge_requests', 'develop', 'master']
   image:
-    name: $CI_REGISTRY_IMAGE:${CI_COMMIT_SHA}_Dev_Build
+    name: $CI_REGISTRY_IMAGE:${CI_COMMIT_SHA}-${NAME_DEVELOP_TAG}
     entrypoint: [""]
   script:
     - apk --update add nodejs npm
