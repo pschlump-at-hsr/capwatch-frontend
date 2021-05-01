@@ -8,8 +8,9 @@ image: $DOCKER_IMAGE_DOCKER
 
 stages:
   - build
-#  - lint
+  - sonarqube-build
   - sonarqube-check
+  - lint
   - tag-develop
   - tag-master
   - deploy-develop
@@ -36,16 +37,24 @@ Build:
       .
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
 
-# TODO fix linting integration
-#Linting:
-#  stage: lint
-#  only: ['merge_requests', 'develop', 'master']
-#  image:
-#    name: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-#    entrypoint: [""]
-#  script:
-#    - apk --update add nodejs npm
-#    - npm run lint
+
+Sonarqube-Build:
+   stage: sonarqube-build
+   script: 
+      - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
+      - docker pull $CI_REGISTRY_IMAGE:$NAME_DEVELOP_TAG || true
+      # The built image is tagged locally with the commit SHA
+      - >
+        docker build
+        --pull
+        --build-arg VCS_REF=$CI_COMMIT_SHA
+        --build-arg VCS_URL=$CI_PROJECT_URL
+        --cache-from $CI_REGISTRY_IMAGE:$NAME_DEVELOP_TAG
+        --tag $CI_REGISTRY_IMAGE:${CI_COMMIT_SHA}-${NAME_DEVELOP_TAG}
+        .
+      - docker push $CI_REGISTRY_IMAGE:${CI_COMMIT_SHA}-${NAME_DEVELOP_TAG}
+   only: ['merge_requests', 'develop', 'master']
+
 
 Sonarqube:
   stage: sonarqube-check
@@ -57,7 +66,6 @@ Sonarqube:
     SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
     # Tells git to fetch all the branches of the project, required by the analysis task
     GIT_DEPTH: "0"
-  only: ['merge_requests', 'develop', 'master']
   allow_failure: true
   cache:
     key: "${CI_JOB_NAME}"
@@ -65,6 +73,20 @@ Sonarqube:
       - .sonar/cache
   script:
     - sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.host.url="${SONARQUBE_HOST}" -Dsonar.login="${SONARQUBE_TOKEN}"
+  only: ['merge_requests', 'develop', 'master']
+
+
+Linting:
+  stage: lint
+  only: ['merge_requests', 'develop', 'master']
+  image:
+    name: $CI_REGISTRY_IMAGE:${CI_COMMIT_SHA}-${NAME_DEVELOP_TAG}
+    entrypoint: [""]
+  script:
+    - apk --update add nodejs npm
+    - npm install eslint
+    - npm run lint
+
 
 Tag develop:
   stage: tag-develop
