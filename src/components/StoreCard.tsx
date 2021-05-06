@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: theme.spacing(6)
   },
   content: {
-    padding: '16px 40px 16px 40px',
+    padding: '16px 40px 16px 40px'
   },
   favoriteIcon: {
     padding: '8px'
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   slider: {
     paddingBottom: '4px'
-  },
+  }
 }));
 
 export default function StoreCard({
@@ -69,11 +69,12 @@ export default function StoreCard({
         </Typography>
 
         <Slider
-          disabled
           defaultValue={store.currentCapacity}
           max={store.maxCapacity}
-          valueLabelDisplay={'on'}
+          valueLabelDisplay={store.currentCapacity / store.maxCapacity > 0.47 ? 'on' : 'auto'}
           className={classes.slider}
+          step={null}
+          marks={[{ value: store.currentCapacity, label: '' }]}
         />
 
         <Grid container direction="row" justify="space-between" className={classes.sliderText}>
