@@ -20,14 +20,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.primary.main
   },
   navigationItem: {
-    color: '#FFF',
+    color: theme.palette.common.white,
     opacity: 0.7,
     '&.Mui-selected': {
-      color: '#FFF',
+      color: theme.palette.common.white,
       opacity: 1
     },
     '&.MuiSvgIcon-root': {
-      color: '#FFF',
+      color: theme.palette.common.white,
       opacity: 1
     }
   }
@@ -35,13 +35,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export default function Footer() {
   const classes: Classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [activeIcon, setActiveIcon] = React.useState(0);
 
   return (
     <BottomNavigation
-      value={value}
-      onChange={(event, newValue) => {
-        setValue(newValue);
+      value={activeIcon}
+      onChange={(event, newIcon) => {
+        setActiveIcon(newIcon);
       }}
       showLabels
       className={classes.root}
