@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export default function Footer() {
   const classes: Classes = useStyles();
-  const [activeIcon, setActiveIcon] = React.useState(0);
+  const [activeIcon, setActiveIcon] = useState(0);
 
   return (
     <BottomNavigation

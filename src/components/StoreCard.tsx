@@ -39,7 +39,7 @@ export default function StoreCard({
   changeFavorite: (id: string) => void;
 }) {
   const classes: Classes = useStyles();
-  const displayThreshold = 0.47;
+  const DISPLAY_THRESHOLD = 0.47;
 
   return (
     <Card className={classes.root}>
@@ -73,7 +73,7 @@ export default function StoreCard({
           defaultValue={store.currentCapacity}
           max={store.maxCapacity}
           valueLabelDisplay={
-            store.currentCapacity / store.maxCapacity > displayThreshold ? 'on' : 'auto'
+            store.currentCapacity / store.maxCapacity > DISPLAY_THRESHOLD ? 'on' : 'auto'
           }
           className={classes.slider}
           step={null}
