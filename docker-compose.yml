@@ -2,8 +2,8 @@ version: "3"
 
 services:
   web:
-    container_name: ${container-name}
-    image: registry.gitlab.ost.ch:45023/epj/2021-fs/g03_capwatch/development/capwatch/${deployment-version}
+    container_name: ${CONTAINER_NAME}
+    image: registry.gitlab.ost.ch:45023/epj/2021-fs/g03_capwatch/development/capwatch/${DEPLOYMENT_VERSION}
     networks:
       - traefik
     stdin_open: true
@@ -14,13 +14,13 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik"
       # Get the routes from http
-      - "traefik.http.routers.capwatch.rule=Host(`${deployment-domain}`)"
+      - "traefik.http.routers.capwatch.rule=Host(`${DEPLOYMENT_DOMAIN}`)"
       - "traefik.http.routers.capwatch.entrypoints=web"
       # Redirect these routes to https
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.routers.capwatch.middlewares=redirect-to-https@docker"
       # Get the routes from https
-      - "traefik.http.routers.capwatch-secured.rule=Host(`${deployment-domain}`)"
+      - "traefik.http.routers.capwatch-secured.rule=Host(`${DEPLOYMENT_DOMAIN}`)"
       - "traefik.http.routers.capwatch-secured.entrypoints=web-secure"
       # Apply autentificiation with http challenge
       - "traefik.http.routers.capwatch-secured.tls=true"
@@ -37,7 +37,7 @@ services:
       - "traefik.http.middlewares.servicests.headers.framedeny=true"
       - "traefik.http.middlewares.servicests.headers.sslredirect=true"
       - "traefik.http.middlewares.servicests.headers.browserXssFilter=true"
-      - "traefik.http.middlewares.servicests.headers.contentSecurityPolicy=default-src https: 'unsafe-eval' 'unsafe-inline'; base-uri 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'self' https://${deployment-domain};"   
+      - "traefik.http.middlewares.servicests.headers.contentSecurityPolicy=default-src https: 'unsafe-eval' 'unsafe-inline'; base-uri 'self'; form-action 'self'; object-src 'none'; frame-ancestors 'self' https://${DEPLOYMENT_DOMAIN};"   
       - "traefik.http.middlewares.servicests.headers.contentTypeNosniff=true"   
       - "traefik.http.middlewares.servicests.headers.referrerPolicy=strict-origin"
 
