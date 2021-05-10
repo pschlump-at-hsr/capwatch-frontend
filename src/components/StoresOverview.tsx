@@ -5,7 +5,7 @@ import { Alert } from '@material-ui/lab';
 import { useStores } from '../hooks/useStores';
 import { Store } from '../types/store-types';
 import { makeStyles } from '@material-ui/core/styles';
-import { Classes } from '@material-ui/styles/mergeClasses/mergeClasses'
+import { Classes } from '@material-ui/styles/mergeClasses/mergeClasses';
 
 const useStyles = makeStyles({
   root: {
@@ -23,11 +23,12 @@ export default function StoresOverview({ favoritesOnly = false }: { favoritesOnl
   if (favoritesOnly) favoriteStores = stores.filter((store: Store) => store.isFavorite);
 
   const isEmpty = isLoading || hasError || stores.length < 1;
+  const isFavoritesEmpty = favoriteStores.length < 1;
   const loadingSuccess = !isLoading && !hasError;
 
   return (
     <Grid container spacing={3} className={classes.root}>
-      {isEmpty && (
+      {(isEmpty || isFavoritesEmpty) && (
         <Grid container direction="column" alignItems="center" justify="center">
           {hasError && (
             <Alert severity="error">Error - Bitte versuchen sie es später nochmals</Alert>
@@ -35,7 +36,7 @@ export default function StoresOverview({ favoritesOnly = false }: { favoritesOnl
           {loadingSuccess && stores.length < 1 && (
             <Alert severity="info">Keine Einträge gefunden</Alert>
           )}
-          {favoritesOnly && loadingSuccess && favoriteStores.length < 1 && (
+          {!isEmpty && favoritesOnly && loadingSuccess && isFavoritesEmpty && (
             <Alert severity="info">Keine Favoriten ausgewählt</Alert>
           )}
         </Grid>
