@@ -1,0 +1,48 @@
+version: "3.3"
+
+networks:
+    # Allow the use of traefik via the internal traefik network in other docker-compose.yml files
+    traefik:
+        external: false
+
+services:
+
+  traefik:
+    image: "traefik:v2.2"
+    container_name: "traefik"
+    command:
+      # Set Docker as the provider
+      - "--providers.docker=true"
+      # Avoid that all containers are exposed by default
+      - "--providers.docker.exposedbydefault=false"
+      # Settle the ports for the entry points
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web-secure.address=:443"
+      # Settle the autentification method to http challenge
+      - "--certificatesresolvers.myhttpchallenge.acme.httpchallenge=true"
+      - "--certificatesresolvers.myhttpchallenge.acme.httpchallenge.entrypoint=web"
+      # Uncomment this to get a fake certificate when testing
+      #- "--certificatesresolvers.myhttpchallenge.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      # Settle letsencrypt as the certificate provider
+      - "--certificatesresolvers.myhttpchallenge.acme.storage=/letsencrypt/acme.json"
+      # Set Secure TLS Settings for websecure
+      - "--providers.file.filename=/config/traefik-tls.toml"
+      - "--entrypoints.web-secure.http.tls.options=default@file"
+
+    labels:
+      - "traefik.frontend.headers.STSSeconds=31536000"
+      - "traefik.frontend.headers.STSIncludeSubdomains=true"
+      - "traefik.frontend.headers.STSPreload=true"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    networks:
+      - "traefik"
+    volumes:
+      # Store certificates in ./letsencrypt/acme.json
+      - "./letsencrypt:/letsencrypt"
+      # TLS Config File
+      - "./config:/config"
+      # Connect to Doker socket
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
