@@ -8,17 +8,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import { BrowserRouter } from 'react-router-dom';
 
-export const SearchContext = React.createContext<any | null>(null);
-export const SearchProvider = ({children}) => {
-  const [searchText, setSearchText] = React.useState("search");
-
-  return(
-    <SearchContext.Provider
-      value={{searchText: [searchText, setSearchText]}}>
-      {children}
-    </SearchContext.Provider>
-  )
-};
+import { SearchContext } from './context/searchContext';
 
 function App() {
   const primaryColor = '#3F51B5';
@@ -60,20 +50,23 @@ function App() {
       }),
     [prefersDarkMode]
   );
+
+  const [searchQuery, setSearchQuery] = useState<string>('');
+
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <SearchContext.Provider value={''}>
+        <SearchContext.Provider value={[searchQuery, setSearchQuery]}>
           <Header />
           <Container style={{ marginBottom: '8vh' }}>
             <AppRouter />
           </Container>
+          <Footer />
         </SearchContext.Provider>
-        <Footer />
       </ThemeProvider>
     </BrowserRouter>
   );
 }
 
-export default App;
+export default App

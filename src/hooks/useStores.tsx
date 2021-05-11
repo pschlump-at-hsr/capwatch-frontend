@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { getStores, getStoresFiltered } from '../services/storesService';
 import { Store } from '../types/store-types';
-import SearchContext from '../App';
+import { SearchContext } from '../context/searchContext';
 
 export const useStores = () => {
   const [stores, setStores] = useState<Array<Store>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [hasError, setHasError] = useState<boolean>(false);
-  const [searchText, setSearchText] = React.useContext(SearchContext);
+
+  const searchContext = useContext<SearchContext>(SearchContext);
+  const [searchQuery] = useContext<SearchContext>(SearchContext);
 
   const isFavorite = (storeId: string) =>
     JSON.parse(localStorage.getItem('favorites') || '{}').some((id: string) => id === storeId);
@@ -18,7 +20,13 @@ export const useStores = () => {
     const fetchStores = async () => {
       setIsLoading(true);
       try {
-        const storesData = await getStores();
+        let storesData: Store[];
+        if (searchQuery) {
+          // TODO improve that type casting to string
+          storesData = await getStoresFiltered(searchQuery as string);
+        } else {
+          storesData = await getStores();
+        }
         storesData.forEach((store: { id: string; isFavorite: boolean }) => {
           store.isFavorite = isFavorite(store.id);
         });
@@ -30,7 +38,7 @@ export const useStores = () => {
       }
     };
     fetchStores();
-  }, []);
+  }, [searchQuery]);
 
   const changeFavorite = (storeId: string) => {
     const updatedStores = stores.map((store: Store) => {
@@ -53,13 +61,6 @@ export const useStores = () => {
 
     setStores(updatedStores);
   };
-
-  useEffect(() => {
-    const search = async () => {
-      const storesData = await getStoresFiltered(searchText);
-      setStores(storesData);
-    };
-  }, []);
 
   return { stores, isLoading, hasError, changeFavorite };
 };

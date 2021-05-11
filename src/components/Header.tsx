@@ -5,10 +5,10 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import { Box, FormControl, Input, InputAdornment, TextField } from '@material-ui/core';
+import { Box, FormControl, Input, InputAdornment } from '@material-ui/core';
 import { Classes } from '@material-ui/styles/mergeClasses/mergeClasses';
 import clsx from 'clsx';
-import SearchContext from '../App';
+import { SearchContext } from '../context/searchContext';
 
 const useStyles = makeStyles(() => ({
   toolbarButtons: {
@@ -17,25 +17,33 @@ const useStyles = makeStyles(() => ({
 }));
 
 export default function Header() {
+  const [searchQuery, setSearchQuery] = useContext(SearchContext);
+
   const classes: Classes = useStyles();
 
-  const [searchText, setSearchText] = useContext(SearchContext);
-
   return (
-    <AppBar position='static'>
+    <AppBar position="static">
       <Toolbar>
-        <Typography variant='h6' noWrap>
+        <Typography variant="h6" noWrap>
           CapWatch
         </Typography>
         <Box className={classes.toolbarButtons}>
           <FormControl className={clsx(classes.margin, classes.textField)}>
             <Input
-              id='search-input'
-              value={searchText}
-              onChange={e => { setSearchText(e.target.value)}}
-              endAdornment={<InputAdornment position='end'> <IconButton aria-label='search'
-                                                                        color='inherit'><SearchIcon />
-              </IconButton></InputAdornment>}
+              id="search-input"
+              value={searchQuery}
+              onChange={(e) => {
+                // @ts-ignore
+                setSearchQuery(e.target.value);
+              }}
+              endAdornment={
+                <InputAdornment position="end">
+                  {' '}
+                  <IconButton aria-label="search" color="inherit">
+                    <SearchIcon />
+                  </IconButton>
+                </InputAdornment>
+              }
             />
           </FormControl>
         </Box>
