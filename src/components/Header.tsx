@@ -33,7 +33,7 @@ export default function Header() {
               id="search-input"
               value={searchQuery}
               onChange={(e) => {
-                // @ts-ignore
+                // TODO fix that type error
                 setSearchQuery(e.target.value);
               }}
               endAdornment={

@@ -1,5 +1,4 @@
 import React, { Dispatch, SetStateAction } from 'react';
+import { SearchContextType } from '../types/search-context-type';
 
-export type SearchContext = (string | Dispatch<SetStateAction<string>>)[];
-
-export const SearchContext = React.createContext<SearchContext>({} as SearchContext);
+export const SearchContext = React.createContext<SearchContextType>({} as SearchContextType);
