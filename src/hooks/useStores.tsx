@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react';
-import { getStores } from '../services/storesService';
+import React, { useState, useEffect, useContext } from 'react';
+import { getStores, getStoresFiltered } from '../services/storesService';
 import { Store } from '../types/store-types';
+import SearchContext from '../App';
 
 export const useStores = () => {
   const [stores, setStores] = useState<Array<Store>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [hasError, setHasError] = useState<boolean>(false);
+  const [searchText, setSearchText] = React.useContext(SearchContext);
 
   const isFavorite = (storeId: string) =>
     JSON.parse(localStorage.getItem('favorites') || '{}').some((id: string) => id === storeId);
@@ -51,6 +53,13 @@ export const useStores = () => {
 
     setStores(updatedStores);
   };
+
+  useEffect(() => {
+    const search = async () => {
+      const storesData = await getStoresFiltered(searchText);
+      setStores(storesData);
+    };
+  }, []);
 
   return { stores, isLoading, hasError, changeFavorite };
 };

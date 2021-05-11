@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import AppRouter from './AppRouter';
@@ -7,6 +7,18 @@ import { Container, CssBaseline, useMediaQuery } from '@material-ui/core';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import { BrowserRouter } from 'react-router-dom';
+
+export const SearchContext = React.createContext<any | null>(null);
+export const SearchProvider = ({children}) => {
+  const [searchText, setSearchText] = React.useState("search");
+
+  return(
+    <SearchContext.Provider
+      value={{searchText: [searchText, setSearchText]}}>
+      {children}
+    </SearchContext.Provider>
+  )
+};
 
 function App() {
   const primaryColor = '#3F51B5';
@@ -52,14 +64,16 @@ function App() {
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Header />
-        <Container style={{ marginBottom: '8vh' }}>
-          <AppRouter />
-        </Container>
+        <SearchContext.Provider value={''}>
+          <Header />
+          <Container style={{ marginBottom: '8vh' }}>
+            <AppRouter />
+          </Container>
+        </SearchContext.Provider>
         <Footer />
       </ThemeProvider>
     </BrowserRouter>
   );
 }
 
-export default App
+export default App;
