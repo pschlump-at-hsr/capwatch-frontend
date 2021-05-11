@@ -1,5 +1,5 @@
-import React from 'react';
-import { makeStyles, Theme } from '@material-ui/core/styles'
+import React, { useState } from 'react';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import VisibilityIcon from '@material-ui/icons/Visibility';
@@ -7,7 +7,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { Link } from 'react-router-dom';
-import { Classes } from '@material-ui/styles/mergeClasses/mergeClasses'
+import { Classes } from '@material-ui/styles/mergeClasses/mergeClasses';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -16,18 +16,36 @@ const useStyles = makeStyles((theme: Theme) => ({
     bottom: '0',
     height: '56px',
     width: '100%',
-    background: theme.palette.primary.main
+    zIndex: 2,
+    backgroundColor: theme.palette.primary.main
   },
   navigationItem: {
-    color: '#FFF'
+    color: theme.palette.common.white,
+    opacity: 0.7,
+    '&.Mui-selected': {
+      color: theme.palette.common.white,
+      opacity: 1
+    },
+    '&.MuiSvgIcon-root': {
+      color: theme.palette.common.white,
+      opacity: 1
+    }
   }
 }));
 
 export default function Footer() {
   const classes: Classes = useStyles();
+  const [activeIcon, setActiveIcon] = useState(0);
 
   return (
-    <BottomNavigation showLabels className={classes.root}>
+    <BottomNavigation
+      value={activeIcon}
+      onChange={(event, newIcon) => {
+        setActiveIcon(newIcon);
+      }}
+      showLabels
+      className={classes.root}
+    >
       <BottomNavigationAction
         component={Link}
         to="/"
