@@ -34,8 +34,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export default function Footer() {
-  const classes: Classes = useStyles();
   const [activeIcon, setActiveIcon] = useState(0);
+  const classes: Classes = useStyles();
 
   return (
     <BottomNavigation

@@ -57,8 +57,8 @@ function App() {
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <SearchContext.Provider value={[searchQuery, setSearchQuery]}>
-          <Header />
+        <SearchContext.Provider value={searchQuery}>
+          <Header setSearchQuery={setSearchQuery} />
           <Container style={{ marginBottom: '8vh' }}>
             <AppRouter />
           </Container>

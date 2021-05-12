@@ -2,14 +2,13 @@ import React, { useState, useEffect, useContext } from 'react';
 import { getStores, getStoresFiltered } from '../services/storesService';
 import { Store } from '../types/store-types';
 import { SearchContext } from '../context/searchContext';
-import { SearchContextType } from '../types/search-context-type';
 
 export const useStores = () => {
   const [stores, setStores] = useState<Array<Store>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [hasError, setHasError] = useState<boolean>(false);
 
-  const [searchQuery] = useContext<SearchContextType>(SearchContext);
+  const searchQuery = useContext<string>(SearchContext);
 
   const isFavorite = (storeId: string) =>
     JSON.parse(localStorage.getItem('favorites') || '{}').some((id: string) => id === storeId);
@@ -22,8 +21,7 @@ export const useStores = () => {
       try {
         let storesData: Store[];
         if (searchQuery) {
-          // TODO improve that type casting to string
-          storesData = await getStoresFiltered(searchQuery as string);
+          storesData = await getStoresFiltered(searchQuery);
         } else {
           storesData = await getStores();
         }

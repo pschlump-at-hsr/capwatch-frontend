@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { ChangeEvent, useContext } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -16,9 +16,12 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default function Header() {
-  const [searchQuery, setSearchQuery] = useContext(SearchContext);
-
+export default function Header({
+  setSearchQuery
+}: {
+  setSearchQuery: (searchQuery: string) => void;
+}) {
+  const searchQuery = useContext(SearchContext);
   const classes: Classes = useStyles();
 
   return (
@@ -32,8 +35,7 @@ export default function Header() {
             <Input
               id="search-input"
               value={searchQuery}
-              onChange={(e) => {
-                // TODO fix that type error
+              onChange={(e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
                 setSearchQuery(e.target.value);
               }}
               endAdornment={

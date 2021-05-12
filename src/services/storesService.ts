@@ -7,7 +7,6 @@ export async function getStores(): Promise<Store[]> {
 }
 
 export async function getStoresFiltered(searchQuery: string): Promise<Store[]> {
-  console.log(searchQuery);
   const params = new URLSearchParams([['filter', searchQuery]]);
   const result = await httpService.get('/stores', { params });
   return result.data;
