@@ -98,7 +98,7 @@ Tag develop:
     - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
     - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     # Tag it "develop"
-    - docker tag $CI_REGISTRY_IMAGE:$NAME_DEVELOP_TAG
+    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:$NAME_DEVELOP_TAG
     - docker push $CI_REGISTRY_IMAGE:$NAME_DEVELOP_TAG
 
 Tag master:
