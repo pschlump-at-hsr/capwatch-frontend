@@ -3,7 +3,7 @@ version: "3.3"
 networks:
     # Allow the use of traefik via the internal traefik network in other docker-compose.yml files
     traefik:
-        external: false
+        external: true
 
 services:
 
