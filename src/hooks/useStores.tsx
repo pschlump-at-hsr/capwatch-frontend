@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { getStores } from '../services/storesService';
 import { Store } from '../types/store-types';
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 
 export const useStores = () => {
   const [stores, setStores] = useState<Array<Store>>([]);
+  const [connection, setConnection] = useState<null | HubConnection>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [hasError, setHasError] = useState<boolean>(false);
 
@@ -29,6 +31,30 @@ export const useStores = () => {
     };
     fetchStores();
   }, []);
+
+  useEffect(() => {
+    const connect = new HubConnectionBuilder()
+      .withUrl(
+        process.env.REACT_APP_BACKEND_API_URL + '/storesHub' || 'http://locahost:8080/storesHub'
+      )
+      .withAutomaticReconnect()
+      .build();
+
+    setConnection(connect);
+  }, []);
+
+  useEffect(() => {
+    if (connection) {
+      connection
+        .start()
+        .then(() => {
+          connection.on('ReceiveMessage', (message) => {
+            console.log('Message received: ' + message);
+          });
+        })
+        .catch((error) => console.log("ERROR: " + error));
+    }
+  }, [connection]);
 
   const changeFavorite = (storeId: string) => {
     const updatedStores = stores.map((store: Store) => {
