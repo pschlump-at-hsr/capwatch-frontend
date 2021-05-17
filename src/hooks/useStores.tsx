@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getStores } from '../services/storesService';
 import { Store } from '../types/store-types';
-import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 
 export const useStores = () => {
   const [stores, setStores] = useState<Array<Store>>([]);
@@ -37,24 +37,30 @@ export const useStores = () => {
       .withUrl(
         process.env.REACT_APP_BACKEND_API_URL + '/storesHub' || 'http://locahost:8080/storesHub'
       )
+        // TODO Jonas LogLevel necessary?
+      .configureLogging(LogLevel.Information)
       .withAutomaticReconnect()
       .build();
-
     setConnection(connect);
   }, []);
 
   useEffect(() => {
-    if (connection) {
+    if (!isLoading && connection) {
       connection
         .start()
         .then(() => {
           connection.on('ReceiveMessage', (message) => {
+            // TODO Jonas test this and implement reFetching of stores due to received message
             console.log('Message received: ' + message);
           });
         })
-        .catch((error) => console.log("ERROR: " + error));
+          // TODO Jonas improve error handling - hasError working?
+        .catch((error) => {
+          setHasError(true);
+          console.log(error)
+        });
     }
-  }, [connection]);
+  }, [connection, isLoading]);
 
   const changeFavorite = (storeId: string) => {
     const updatedStores = stores.map((store: Store) => {
