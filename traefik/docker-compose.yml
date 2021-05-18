@@ -6,7 +6,6 @@ networks:
         external: true
 
 services:
-
   traefik:
     image: "traefik:v2.4"
     container_name: "traefik"
