@@ -35,10 +35,10 @@ export const useStores = () => {
   useEffect(() => {
     const connect = new HubConnectionBuilder()
       .withUrl(
-        process.env.REACT_APP_BACKEND_API_URL + '/storesHub' || 'http://locahost:8080/storesHub'
+        process.env.REACT_APP_BACKEND_API_URL + '/storeshub' || 'http://locahost:8080/storeshub'
       )
         // TODO Jonas LogLevel necessary?
-      .configureLogging(LogLevel.Information)
+      .configureLogging(LogLevel.Debug)
       .withAutomaticReconnect()
       .build();
     setConnection(connect);
@@ -49,14 +49,17 @@ export const useStores = () => {
       connection
         .start()
         .then(() => {
-          connection.on('ReceiveMessage', (message) => {
-            // TODO Jonas test this and implement reFetching of stores due to received message
-            console.log('Message received: ' + message);
+          connection.on('new', (message) => {
+            if (message.length > 0) {
+              // TODO Jonas test this and implement reFetching of stores due to received message
+              console.log('Message received: ' + message);
+            }
+
           });
         })
           // TODO Jonas improve error handling - hasError working?
         .catch((error) => {
-          setHasError(true);
+          // setHasError(true);
           console.log(error)
         });
     }
