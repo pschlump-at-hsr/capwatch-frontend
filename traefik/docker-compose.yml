@@ -8,7 +8,7 @@ networks:
 services:
 
   traefik:
-    image: "traefik:v2.2"
+    image: "traefik:v2.4"
     container_name: "traefik"
     command:
       # Set Docker as the provider
@@ -28,7 +28,6 @@ services:
       # Set Secure TLS Settings for websecure
       - "--providers.file.filename=/config/traefik-tls.toml"
       - "--entrypoints.web-secure.http.tls.options=default@file"
-
     labels:
       - "traefik.frontend.headers.STSSeconds=31536000"
       - "traefik.frontend.headers.STSIncludeSubdomains=true"
