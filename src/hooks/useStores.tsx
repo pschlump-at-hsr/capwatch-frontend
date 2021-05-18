@@ -37,7 +37,7 @@ export const useStores = () => {
       .withUrl(
         process.env.REACT_APP_BACKEND_API_URL + '/storeshub' || 'http://locahost:8080/storeshub'
       )
-        // TODO Jonas LogLevel necessary?
+        // TODO LogLevel necessary?
       .configureLogging(LogLevel.Debug)
       .withAutomaticReconnect()
       .build();
@@ -51,15 +51,16 @@ export const useStores = () => {
         .then(() => {
           connection.on('new', (message) => {
             if (message.length > 0) {
-              // TODO Jonas test this and implement reFetching of stores due to received message
+              // TODO test this and implement reFetching of stores due to received message
               console.log('Message received: ' + message);
             }
 
           });
         })
-          // TODO Jonas improve error handling - hasError working?
+          // TODO improve error handling - hasError working?
         .catch((error) => {
           // setHasError(true);
+          // TODO fix strange TypeError caused by JS fetch API, no more ideas how we could fix that
           console.log(error)
         });
     }
