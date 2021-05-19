@@ -4,7 +4,7 @@ import { Store } from '../types/store-types';
 import { SearchContext } from '../context/searchContext';
 
 export const useStores = () => {
-  const SEARCH_DELAY = 100;
+  const SEARCH_DELAY = 300;
 
   const [stores, setStores] = useState<Array<Store>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
