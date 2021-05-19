@@ -1,35 +1,27 @@
-import React, { ChangeEvent, useContext } from 'react';
+import React, { ChangeEvent, Context, useContext, useEffect, useState } from 'react'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import { Box, FormControl, Input, InputAdornment } from '@material-ui/core';
+import { Fade, IconButton, Input, Slide } from '@material-ui/core';
 import { Classes } from '@material-ui/styles/mergeClasses/mergeClasses';
-import clsx from 'clsx';
 import { SearchContext } from '../context/searchContext';
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import InputLabel from "@material-ui/core/InputLabel";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  toolbarButtons: {
+  root: {
+    overflow: 'hidden'
+  },
+  searchInput: {
+    color: theme.palette.common.white,
     marginLeft: 'auto'
   },
-  margin: {
-    margin: theme.spacing(1)
+  searchInputIcon: {
+    marginRight: theme.spacing(1)
   },
-  textField: {
-    "& $notchedOutline": {
-      borderColor: theme.palette.common.white
-    },
-    notchedOutline: {}
-  },
-  searchTextField: {
-    color: theme.palette.common.white
-  },
-  outlinedInputClasses: {
-    color: theme.palette.common.white
+  searchButtonIcon: {
+    position: 'absolute',
+    right: theme.spacing(2)
   }
 }));
 
@@ -38,37 +30,61 @@ export default function Header({
 }: {
   setSearchQuery: (searchQuery: string) => void;
 }) {
-  const searchQuery = useContext(SearchContext);
   const classes: Classes = useStyles();
 
+  const searchQuery = useContext<string>(SearchContext);
+
+  const [checked, setChecked] = useState<boolean>(false);
+  const searchInput = React.useRef<HTMLDivElement>(document.createElement("div"));
+
+  useEffect(() => {
+    if (checked) {
+      setTimeout(function () {
+        searchInput.current.focus();
+      }, 150);
+    }
+  }, [checked]);
+
   return (
-    <AppBar position="static" >
+    <AppBar position="static" className={classes.root}>
       <Toolbar>
-        <Typography variant="h6" noWrap>
-          CapWatch
-        </Typography>
-        <form className={clsx(classes.toolbarButtons, classes.textField)}>
-          <FormControl variant="outlined" className={clsx(classes.formControl, classes.margin)}>
-            <InputLabel className={clsx(classes.searchTextField)}>
-              Suche...
-            </InputLabel>
-            <OutlinedInput className={clsx(classes.outlinedInputClasses)}
-              id="search-input"
-              value={searchQuery}
-              onChange={(e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-                setSearchQuery(e.target.value);
-              }}
-              endAdornment={
-                <InputAdornment position="end">
-                  {' '}
-                  <IconButton aria-label="search" color="inherit">
-                    <SearchIcon />
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </FormControl>
-        </form>
+        <Fade in={true}>
+          <Typography variant="h6" noWrap>
+            CapWatch
+          </Typography>
+        </Fade>
+
+        <Fade in={!checked}>
+          <IconButton
+            className={classes.searchButtonIcon}
+            aria-label="search"
+            color="inherit"
+            onClick={() => setChecked(!checked)}
+          >
+            <SearchIcon />
+          </IconButton>
+        </Fade>
+
+        <Slide direction="left" in={checked}>
+          <Input
+            id="search-input"
+            disableUnderline
+            margin="dense"
+            placeholder="Suche..."
+            inputRef={searchInput}
+            onBlur={() => setChecked(false)}
+            className={classes.searchInput}
+            inputProps={{
+              classes: { notchedOutline: classes.searchOutline },
+              startAdornment: <SearchIcon aria-label="search" className={classes.searchIcon} />
+            }}
+            value={searchQuery}
+            onChange={(e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+              setSearchQuery(e.target.value);
+            }}
+            startAdornment={<SearchIcon aria-label="search" className={classes.searchInputIcon} />}
+          />
+        </Slide>
       </Toolbar>
     </AppBar>
   );

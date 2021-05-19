@@ -26,7 +26,7 @@ function App() {
           }
         },
         palette: {
-          type: prefersDarkMode ? 'dark' : 'light',
+          type: !prefersDarkMode ? 'dark' : 'light',
           primary: {
             main: primaryColor
           },
