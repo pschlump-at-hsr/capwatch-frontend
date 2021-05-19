@@ -96,9 +96,16 @@ Tag develop:
     - develop
   script:
     - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
-    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-    # Tag it "develop"
-    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:$NAME_DEVELOP_TAG
+    # The image is build with the development environment variables, tagged with develop and pushed to the registry
+    - >
+      docker build
+      --file Dockerfile.dev
+      --pull
+      --build-arg VCS_REF=$CI_COMMIT_SHA
+      --build-arg VCS_URL=$CI_PROJECT_URL
+      --cache-from $CI_REGISTRY_IMAGE:$NAME_DEVELOP_TAG
+      --tag $CI_REGISTRY_IMAGE:$NAME_DEVELOP_TAG
+      .
     - docker push $CI_REGISTRY_IMAGE:$NAME_DEVELOP_TAG
 
 Tag master:
@@ -111,12 +118,16 @@ Tag master:
     - master
   script:
     - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
-    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-    # Tag it with the latest tag
-    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
-    # Tag it latest for the latest master commit
-    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:$NAME_LATEST_TAG
+    # The image is build with the productive environment variables, tagged with latest and pushed to the registry
+    - >
+      docker build
+      --file Dockerfile.prod
+      --pull
+      --build-arg VCS_REF=$CI_COMMIT_SHA
+      --build-arg VCS_URL=$CI_PROJECT_URL
+      --cache-from $CI_REGISTRY_IMAGE:$NAME_DEVELOP_TAG
+      --tag $CI_REGISTRY_IMAGE:$NAME_LATEST_TAG
+      .
     - docker push $CI_REGISTRY_IMAGE:$NAME_LATEST_TAG
 
 # TODO implement
