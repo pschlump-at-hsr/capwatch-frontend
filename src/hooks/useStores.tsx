@@ -18,6 +18,8 @@ export const useStores = () => {
   useEffect(() => {
     if (!localStorage.getItem('favorites')) localStorage.setItem('favorites', '[]');
 
+    let timeoutFunction: NodeJS.Timeout;
+
     const fetchStores = async () => {
       setIsLoading(true);
 
@@ -26,7 +28,7 @@ export const useStores = () => {
 
       try {
         if (searchQuery) {
-          setTimeout(async () => {
+          timeoutFunction = setTimeout(async () => {
             storesData = await getStoresFiltered(searchQuery);
             storesData.forEach((store: { id: string; isFavorite: boolean }) => {
               store.isFavorite = isFavorite(store.id, favorites);
@@ -48,6 +50,8 @@ export const useStores = () => {
     };
 
     fetchStores();
+
+    return () => clearTimeout(timeoutFunction);
   }, [searchQuery]);
 
   const changeFavorite = (storeId: string) => {
