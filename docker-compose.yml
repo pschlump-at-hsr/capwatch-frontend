@@ -2,44 +2,13 @@ version: "3"
 
 services:
   web:
-    container_name: ${CONTAINER_NAME}
-    image: registry.gitlab.ost.ch:45023/epj/2021-fs/g03_capwatch/development/capwatch:${DEPLOYMENT_VERSION}
-    networks:
-      - traefik
+    container_name: capwatch-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
     stdin_open: true
     ports:
       - "3000:3000"
-    labels:
-      # The labels are usefull for Traefik only
-      - "traefik.enable=true"
-      - "traefik.docker.network=traefik"
-      # Get the routes from http
-      - "traefik.http.routers.capwatch.rule=Host(`${DEPLOYMENT_DOMAIN}`)"
-      - "traefik.http.routers.capwatch.entrypoints=web"
-      # Redirect these routes to https
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      - "traefik.http.routers.capwatch.middlewares=redirect-to-https@docker"
-      # Get the routes from https
-      - "traefik.http.routers.capwatch-secured.rule=Host(`${DEPLOYMENT_DOMAIN}`)"
-      - "traefik.http.routers.capwatch-secured.entrypoints=web-secure"
-      # Apply autentificiation with http challenge
-      - "traefik.http.routers.capwatch-secured.tls=true"
-      - "traefik.http.routers.capwatch-secured.tls.certresolver=myhttpchallenge"
-      - "traefik.http.middlewares.servicests.headers.stsincludesubdomains=true"
-      - "traefik.http.middlewares.servicests.headers.stspreload=true"
-      - "traefik.http.middlewares.servicests.headers.stsseconds=31536000"
-      - "traefik.http.routers.capwatch-secured.middlewares=servicests"
-      - "traefik.http.routers.capwatch.middlewares=servicests"   
-      - "traefik.http.middlewares.servicests.headers.accesscontrolallowmethods=GET,OPTIONS,PUT"
-      - "traefik.http.middlewares.servicests.headers.accesscontrolalloworigin=*"
-      - "traefik.http.middlewares.servicests.headers.accesscontrolmaxage=100"
-      - "traefik.http.middlewares.servicests.headers.addvaryheader=true"
-      - "traefik.http.middlewares.servicests.headers.framedeny=true"
-      - "traefik.http.middlewares.servicests.headers.sslredirect=true"
-      - "traefik.http.middlewares.servicests.headers.browserXssFilter=true"
-      - "traefik.http.middlewares.servicests.headers.contentTypeNosniff=true"   
-      - "traefik.http.middlewares.servicests.headers.referrerPolicy=strict-origin"
-
 #  web:
 #    container_name: capwatch-frontend-dev
 #    build:
