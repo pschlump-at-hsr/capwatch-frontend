@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Context, useContext, useEffect, useState } from 'react'
+import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -35,11 +35,11 @@ export default function Header({
   const searchQuery = useContext<string>(SearchContext);
 
   const [checked, setChecked] = useState<boolean>(false);
-  const searchInput = React.useRef<HTMLDivElement>(document.createElement("div"));
+  const searchInput = React.useRef<HTMLDivElement>(document.createElement('div'));
 
   useEffect(() => {
     if (checked) {
-      setTimeout(function () {
+      setTimeout(() => {
         searchInput.current.focus();
       }, 150);
     }
@@ -72,7 +72,10 @@ export default function Header({
             margin="dense"
             placeholder="Suche..."
             inputRef={searchInput}
-            onBlur={() => setChecked(false)}
+            onBlur={() => {
+              setChecked(false);
+              setSearchQuery('');
+            }}
             className={classes.searchInput}
             inputProps={{
               classes: { notchedOutline: classes.searchOutline },

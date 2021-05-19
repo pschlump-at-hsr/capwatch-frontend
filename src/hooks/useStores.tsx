@@ -4,37 +4,49 @@ import { Store } from '../types/store-types';
 import { SearchContext } from '../context/searchContext';
 
 export const useStores = () => {
+  const SEARCH_DELAY = 100;
+
   const [stores, setStores] = useState<Array<Store>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [hasError, setHasError] = useState<boolean>(false);
 
   const searchQuery = useContext<string>(SearchContext);
 
-  const isFavorite = (storeId: string) =>
-    JSON.parse(localStorage.getItem('favorites') || '{}').some((id: string) => id === storeId);
+  const isFavorite = (storeId: string, favorites: Array<Store>) =>
+    favorites.some((value: Store) => value.id === storeId);
 
   useEffect(() => {
     if (!localStorage.getItem('favorites')) localStorage.setItem('favorites', '[]');
 
     const fetchStores = async () => {
       setIsLoading(true);
+
+      let storesData: Store[];
+      const favorites = JSON.parse(localStorage.getItem('favorites') || '{}');
+
       try {
-        let storesData: Store[];
         if (searchQuery) {
-          storesData = await getStoresFiltered(searchQuery);
+          setTimeout(async () => {
+            storesData = await getStoresFiltered(searchQuery);
+            storesData.forEach((store: { id: string; isFavorite: boolean }) => {
+              store.isFavorite = isFavorite(store.id, favorites);
+            });
+            setStores(storesData);
+          }, SEARCH_DELAY);
         } else {
           storesData = await getStores();
+          storesData.forEach((store: { id: string; isFavorite: boolean }) => {
+            store.isFavorite = isFavorite(store.id, favorites);
+          });
+          setStores(storesData);
         }
-        storesData.forEach((store: { id: string; isFavorite: boolean }) => {
-          store.isFavorite = isFavorite(store.id);
-        });
-        setStores(storesData);
       } catch (error) {
         setHasError(true);
       } finally {
         setIsLoading(false);
       }
     };
+
     fetchStores();
   }, [searchQuery]);
 
