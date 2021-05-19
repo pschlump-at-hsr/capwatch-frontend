@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { getStores, getStoresFiltered } from '../services/storesService';
 import { Store } from '../types/store-types';
 import { SearchContext } from '../context/searchContext';

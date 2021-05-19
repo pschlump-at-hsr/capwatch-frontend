@@ -3,17 +3,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import {
-  Avatar,
-  CardHeader,
-  Divider,
-  Fade,
-  Grid,
-  Grow,
-  IconButton,
-  Slider,
-  Zoom
-} from '@material-ui/core';
+import { Avatar, CardHeader, Divider, Grid, Grow, IconButton, Slider } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import { Store } from '../types/store-types';

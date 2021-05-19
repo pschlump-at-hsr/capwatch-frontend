@@ -9,7 +9,6 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import { Link } from 'react-router-dom';
 import { Classes } from '@material-ui/styles/mergeClasses/mergeClasses';
 import { Fade } from '@material-ui/core';
-import Toolbar from '@material-ui/core/Toolbar';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -37,13 +36,14 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export default function Footer() {
-  const [activeIcon, setActiveIcon] = useState(0);
   const classes: Classes = useStyles();
+
+  const [activeIcon, setActiveIcon] = useState<number>(0);
 
   return (
     <BottomNavigation
       value={activeIcon}
-      onChange={(event, newIcon) => {
+      onChange={(event: ChangeEvent<Record<string, unknown>>, newIcon) => {
         setActiveIcon(newIcon);
       }}
       showLabels
