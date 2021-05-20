@@ -1,34 +1,58 @@
-import { useState, useEffect } from 'react';
-import { getStores } from '../services/storesService';
+import { useState, useEffect, useContext } from 'react';
+import { getStores, getStoresFiltered } from '../services/storesService';
 import { Store } from '../types/store-types';
+import { SearchContext } from '../context/searchContext';
 
 export const useStores = () => {
+  const SEARCH_DELAY = 300;
+
   const [stores, setStores] = useState<Array<Store>>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [hasError, setHasError] = useState<boolean>(false);
 
-  const isFavorite = (storeId: string) =>
-    JSON.parse(localStorage.getItem('favorites') || '{}').some((id: string) => id === storeId);
+  const searchQuery = useContext<string>(SearchContext);
+
+  const isFavorite = (storeId: string, favorites: Array<Store>) =>
+    favorites.some((value: Store) => value.id === storeId);
 
   useEffect(() => {
     if (!localStorage.getItem('favorites')) localStorage.setItem('favorites', '[]');
 
+    let timeoutFunction: NodeJS.Timeout;
+
     const fetchStores = async () => {
       setIsLoading(true);
+
+      let storesData: Store[];
+      const favorites = JSON.parse(localStorage.getItem('favorites') || '{}');
+
       try {
-        const storesData = await getStores();
-        storesData.forEach((store: { id: string; isFavorite: boolean }) => {
-          store.isFavorite = isFavorite(store.id);
-        });
-        setStores(storesData);
+        if (searchQuery) {
+          timeoutFunction = setTimeout(async () => {
+            storesData = await getStoresFiltered(searchQuery);
+            storesData.forEach((store: { id: string; isFavorite: boolean }) => {
+              store.isFavorite = isFavorite(store.id, favorites);
+            });
+            setStores(storesData);
+          }, SEARCH_DELAY);
+        } else {
+          storesData = await getStores();
+          storesData.forEach((store: { id: string; isFavorite: boolean }) => {
+            store.isFavorite = isFavorite(store.id, favorites);
+          });
+          setStores(storesData);
+        }
       } catch (error) {
         setHasError(true);
       } finally {
         setIsLoading(false);
       }
     };
+
     fetchStores();
-  }, []);
+
+    return () => clearTimeout(timeoutFunction);
+  }, [searchQuery]);
 
   const changeFavorite = (storeId: string) => {
     const updatedStores = stores.map((store: Store) => {

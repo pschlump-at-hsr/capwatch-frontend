@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 
 const httpService = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_API_URL,
@@ -8,7 +8,7 @@ const httpService = axios.create({
 });
 
 httpService.interceptors.request.use(
-  (config) => {
+  (config: AxiosRequestConfig) => {
     return config;
   },
   (error) => Promise.reject(error)

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
@@ -8,6 +8,7 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { Link } from 'react-router-dom';
 import { Classes } from '@material-ui/styles/mergeClasses/mergeClasses';
+import { Fade } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -17,6 +18,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: '56px',
     width: '100%',
     zIndex: 2,
+    overflow: 'hidden',
     backgroundColor: theme.palette.primary.main
   },
   navigationItem: {
@@ -35,47 +37,56 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export default function Footer() {
   const classes: Classes = useStyles();
-  const [activeIcon, setActiveIcon] = useState(0);
+
+  const [activeIcon, setActiveIcon] = useState<number>(0);
 
   return (
     <BottomNavigation
       value={activeIcon}
-      onChange={(event, newIcon) => {
+      onChange={(event: ChangeEvent<Record<string, unknown>>, newIcon) => {
         setActiveIcon(newIcon);
       }}
       showLabels
       className={classes.root}
     >
-      <BottomNavigationAction
-        component={Link}
-        to="/"
-        label="Alle"
-        className={classes.navigationItem}
-        icon={<VisibilityIcon className={classes.navigationItem} />}
-      />
-      <BottomNavigationAction
-        component={Link}
-        to="/favorites"
-        label="Favoriten"
-        className={classes.navigationItem}
-        icon={<FavoriteIcon className={classes.navigationItem} />}
-      />
-      <BottomNavigationAction
-        component={Link}
-        to="/nearby"
-        label="In der Nähe"
-        disabled
-        className={classes.navigationItem}
-        icon={<LocationOnIcon className={classes.navigationItem} />}
-      />
-      <BottomNavigationAction
-        component={Link}
-        to="/settings"
-        label="Einstellungen"
-        disabled
-        className={classes.navigationItem}
-        icon={<SettingsIcon className={classes.navigationItem} />}
-      />
+      <Fade in={true}>
+        <BottomNavigationAction
+          component={Link}
+          to="/"
+          label="Alle"
+          className={classes.navigationItem}
+          icon={<VisibilityIcon className={classes.navigationItem} />}
+        />
+      </Fade>
+      <Fade in={true}>
+        <BottomNavigationAction
+          component={Link}
+          to="/favorites"
+          label="Favoriten"
+          className={classes.navigationItem}
+          icon={<FavoriteIcon className={classes.navigationItem} />}
+        />
+      </Fade>
+      <Fade in={true}>
+        <BottomNavigationAction
+          component={Link}
+          to="/nearby"
+          label="In der Nähe"
+          disabled
+          className={classes.navigationItem}
+          icon={<LocationOnIcon className={classes.navigationItem} />}
+        />
+      </Fade>
+      <Fade in={true}>
+        <BottomNavigationAction
+          component={Link}
+          to="/settings"
+          label="Einstellungen"
+          disabled
+          className={classes.navigationItem}
+          icon={<SettingsIcon className={classes.navigationItem} />}
+        />
+      </Fade>
     </BottomNavigation>
   );
 }

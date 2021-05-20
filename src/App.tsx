@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import AppRouter from './AppRouter';
@@ -7,6 +7,8 @@ import { Container, CssBaseline, useMediaQuery } from '@material-ui/core';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import { BrowserRouter } from 'react-router-dom';
+
+import { SearchContext } from './context/searchContext';
 
 function App() {
   const primaryColor = '#3F51B5';
@@ -24,7 +26,7 @@ function App() {
           }
         },
         palette: {
-          type: prefersDarkMode ? 'dark' : 'light',
+          type: !prefersDarkMode ? 'dark' : 'light',
           primary: {
             main: primaryColor
           },
@@ -48,15 +50,20 @@ function App() {
       }),
     [prefersDarkMode]
   );
+
+  const [searchQuery, setSearchQuery] = useState<string>('');
+
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Header />
-        <Container style={{ marginBottom: '8vh' }}>
-          <AppRouter />
-        </Container>
-        <Footer />
+        <SearchContext.Provider value={searchQuery}>
+          <Header setSearchQuery={setSearchQuery} />
+          <Container style={{ marginBottom: '8vh' }}>
+            <AppRouter />
+          </Container>
+          <Footer />
+        </SearchContext.Provider>
       </ThemeProvider>
     </BrowserRouter>
   );
