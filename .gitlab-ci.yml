@@ -1,0 +1,147 @@
+variables:
+  DOCKER_IMAGE_DOCKER: docker:stable-dind
+  SONARQUBE_HOST: https://se1-sonarqube.dev.ifs.hsr.ch
+  NAME_LATEST_TAG: latest
+  NAME_DEVELOP_TAG: develop
+
+image: $DOCKER_IMAGE_DOCKER
+
+stages:
+  - build
+  - sonarqube-build
+  - sonarqube-check
+  - lint
+  - tag-develop
+  - tag-master
+  - deploy-develop
+  - deploy-master
+
+services:
+  - docker:dind
+
+
+# Build image for every commit
+Build:
+  stage: build
+  script:
+    - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE:$NAME_DEVELOP_TAG || true
+    # The built image is tagged locally with the commit SHA
+    - >
+      docker build
+      --pull
+      --build-arg VCS_REF=$CI_COMMIT_SHA
+      --build-arg VCS_URL=$CI_PROJECT_URL
+      --cache-from $CI_REGISTRY_IMAGE:$NAME_DEVELOP_TAG
+      --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+      .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+
+
+Sonarqube-Build:
+   stage: sonarqube-build
+   script: 
+      - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
+      - docker pull $CI_REGISTRY_IMAGE:$NAME_DEVELOP_TAG || true
+      # The built image is tagged locally with the commit SHA
+      - >
+        docker build
+        --pull
+        --build-arg VCS_REF=$CI_COMMIT_SHA
+        --build-arg VCS_URL=$CI_PROJECT_URL
+        --cache-from $CI_REGISTRY_IMAGE:$NAME_DEVELOP_TAG
+        --tag $CI_REGISTRY_IMAGE:${CI_COMMIT_SHA}-${NAME_DEVELOP_TAG}
+        .
+      - docker push $CI_REGISTRY_IMAGE:${CI_COMMIT_SHA}-${NAME_DEVELOP_TAG}
+   only: ['merge_requests', 'develop', 'master']
+
+
+Sonarqube:
+  stage: sonarqube-check
+  image:
+    name: sonarsource/sonar-scanner-cli:4.6
+    entrypoint: [""]
+  variables:
+    # Defines the location of the analysis task cache
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+    # Tells git to fetch all the branches of the project, required by the analysis task
+    GIT_DEPTH: "0"
+  allow_failure: true
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.host.url="${SONARQUBE_HOST}" -Dsonar.login="${SONARQUBE_TOKEN}"
+  only: ['merge_requests', 'develop', 'master']
+
+
+Linting:
+  stage: lint
+  only: ['merge_requests', 'develop', 'master']
+  image:
+    name: $CI_REGISTRY_IMAGE:${CI_COMMIT_SHA}-${NAME_DEVELOP_TAG}
+    entrypoint: [""]
+  script:
+    - apk --update add nodejs npm
+    - npm install eslint
+    - npm run lint
+
+
+Tag develop:
+  stage: tag-develop
+  variables:
+    GIT_STRATEGY: none
+  only:
+    - develop
+  script:
+    - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
+    # The image is build with the development environment variables, tagged with develop and pushed to the registry
+    - >
+      docker build
+      --file Dockerfile.dev
+      --pull
+      --build-arg VCS_REF=$CI_COMMIT_SHA
+      --build-arg VCS_URL=$CI_PROJECT_URL
+      --cache-from $CI_REGISTRY_IMAGE:$NAME_DEVELOP_TAG
+      --tag $CI_REGISTRY_IMAGE:$NAME_DEVELOP_TAG
+      .
+    - docker push $CI_REGISTRY_IMAGE:$NAME_DEVELOP_TAG
+
+Tag master:
+  stage: tag-master
+  variables:
+    # Again, we do not need the source code here. Just playing with Docker.
+    GIT_STRATEGY: none
+  only:
+    - tags
+    - master
+  script:
+    - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
+    # The image is build with the productive environment variables, tagged with latest and pushed to the registry
+    - >
+      docker build
+      --file Dockerfile.prod
+      --pull
+      --build-arg VCS_REF=$CI_COMMIT_SHA
+      --build-arg VCS_URL=$CI_PROJECT_URL
+      --cache-from $CI_REGISTRY_IMAGE:$NAME_DEVELOP_TAG
+      --tag $CI_REGISTRY_IMAGE:$NAME_LATEST_TAG
+      .
+    - docker push $CI_REGISTRY_IMAGE:$NAME_LATEST_TAG
+
+# TODO implement
+Deploy develop:
+  stage: deploy-develop
+  only:
+    - develop
+  script:
+    - echo "Hello from develop deployment"
+
+# TODO implement
+Deploy master:
+  stage: deploy-master
+  only:
+    - master
+  script:
+    - echo "Hello from master deployment"

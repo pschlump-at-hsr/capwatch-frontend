@@ -1,0 +1,15 @@
+# build environment
+FROM node:14.16-alpine AS build
+
+WORKDIR /app
+
+COPY . .
+RUN mv .env-prod .env
+
+RUN npm install
+RUN npm ci
+RUN npm run build
+
+
+EXPOSE 80
+CMD ["npm", "start"]
