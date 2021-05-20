@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 
 const httpService = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_API_URL,
+  maxRedirects: 0,
   headers: {
     'Content-Type': 'application/json'
   }

@@ -10,7 +10,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { SearchContext } from './context/searchContext';
 
-function App() {
+function App(): JSX.Element {
   const primaryColor = '#3F51B5';
   const secondaryColor = '#3D5AFE';
 
@@ -21,12 +21,9 @@ function App() {
       createMuiTheme({
         typography: {
           fontFamily: '"Poppins", sans-serif',
-          h5: {
-            fontWeight: 500
-          }
         },
         palette: {
-          type: !prefersDarkMode ? 'dark' : 'light',
+          type: prefersDarkMode ? 'dark' : 'light',
           primary: {
             main: primaryColor
           },

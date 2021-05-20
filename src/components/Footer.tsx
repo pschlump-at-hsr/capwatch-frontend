@@ -23,19 +23,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   navigationItem: {
     color: theme.palette.common.white,
-    opacity: 0.7,
     '&.Mui-selected': {
       color: theme.palette.common.white,
-      opacity: 1
-    },
-    '&.MuiSvgIcon-root': {
-      color: theme.palette.common.white,
-      opacity: 1
     }
   }
 }));
 
-export default function Footer() {
+export default function Footer(): JSX.Element {
   const classes: Classes = useStyles();
 
   const [activeIcon, setActiveIcon] = useState<number>(0);
