@@ -12,8 +12,8 @@ export const useStores = () => {
 
   const searchQuery = useContext<string>(SearchContext);
 
-  const isFavorite = (storeId: string, favorites: Array<Store>) =>
-    favorites.some((value: Store) => value.id === storeId);
+  const isFavorite = (storeId: string, favorites: Array<string>) =>
+    favorites.some((id: string) => id === storeId);
 
   useEffect(() => {
     if (!localStorage.getItem('favorites')) localStorage.setItem('favorites', '[]');
