@@ -11,7 +11,7 @@ const useStyles = makeStyles({
   root: {
     width: '100%',
     margin: '16px 0 0 0',
-    paddingLeft: 0
+    padding: '0 0 16px 0'
   }
 });
 
