@@ -67,11 +67,10 @@ export default function StoreCard({
         <Divider className={classes.divider} />
 
         <CardContent className={classes.content}>
-          <Typography variant="body1">
-            Anzahl Besucher
-          </Typography>
+          <Typography variant="body1">Anzahl Besucher</Typography>
 
           <Slider
+            aria-label="Anzahl Besucher"
             defaultValue={store.currentCapacity}
             max={store.maxCapacity}
             valueLabelDisplay={
