@@ -67,5 +67,6 @@ here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-
 
 ## Code Quality
 To ensure our Code Quality we use Sonarqube und Sonarlint.
+
 ### Sonarqube Metrics
 The current state of the Code Quality for the develop Branch can be viewed at the following [Sonarqube Project Page](https://se1-sonarqube.dev.ifs.hsr.ch/dashboard?id=CapwatchFrontend).

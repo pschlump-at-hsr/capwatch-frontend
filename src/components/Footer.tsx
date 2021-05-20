@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-export default function Footer() {
+export default function Footer(): JSX.Element {
   const classes: Classes = useStyles();
 
   const [activeIcon, setActiveIcon] = useState<number>(0);

@@ -73,9 +73,7 @@ export default function Header({
             placeholder="Suche..."
             inputRef={searchInput}
             onBlur={() => {
-              if (!searchQuery) {
-                setChecked(false);
-              }
+              if (!searchQuery) setChecked(false);
             }}
             className={classes.searchInput}
             inputProps={{

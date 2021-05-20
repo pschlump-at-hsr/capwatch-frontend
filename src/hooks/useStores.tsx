@@ -1,12 +1,12 @@
 import { useState, useEffect, useContext } from 'react';
 import { getStores, getStoresFiltered } from '../services/storesService';
-import { Store } from '../types/store-types';
+import { Store } from '../types/store-type';
 import { SearchContext } from '../context/searchContext';
 
 export const useStores = () => {
   const SEARCH_DELAY = 300;
 
-  const [stores, setStores] = useState<Array<Store>>([]);
+  const [stores, setStores] = useState<Store[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [hasError, setHasError] = useState<boolean>(false);
 
@@ -49,7 +49,7 @@ export const useStores = () => {
       }
     };
 
-    fetchStores();
+    fetchStores().then(() => true);
 
     return () => clearTimeout(timeoutFunction);
   }, [searchQuery]);
@@ -64,11 +64,10 @@ export const useStores = () => {
         if (initialIsFavorite) {
           const index = favorites.indexOf(storeId);
           if (index >= 0) favorites.splice(index, 1);
-          localStorage.setItem('favorites', JSON.stringify(favorites));
         } else {
           favorites.push(storeId);
-          localStorage.setItem('favorites', JSON.stringify(favorites));
         }
+        localStorage.setItem('favorites', JSON.stringify(favorites));
       }
       return store;
     });

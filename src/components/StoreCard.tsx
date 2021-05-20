@@ -1,13 +1,13 @@
 import React from 'react';
+import { Store } from '../types/store-type';
 import { makeStyles, Theme } from '@material-ui/core/styles';
+import { Avatar, CardHeader, Divider, Grid, Grow, IconButton, Slider } from '@material-ui/core';
+import { Classes } from '@material-ui/styles/mergeClasses/mergeClasses';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { Avatar, CardHeader, Divider, Grid, Grow, IconButton, Slider } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import { Store } from '../types/store-types';
-import { Classes } from '@material-ui/styles/mergeClasses/mergeClasses';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -37,8 +37,9 @@ export default function StoreCard({
 }: {
   store: Store;
   changeFavorite: (id: string) => void;
-}) {
+}): JSX.Element {
   const classes: Classes = useStyles();
+
   const DISPLAY_THRESHOLD = 0.47;
 
   return (
@@ -66,7 +67,7 @@ export default function StoreCard({
         <Divider className={classes.divider} />
 
         <CardContent className={classes.content}>
-          <Typography variant="body1" className={classes.sliderTitle}>
+          <Typography variant="body1">
             Anzahl Besucher
           </Typography>
 
@@ -81,7 +82,7 @@ export default function StoreCard({
             marks={[{ value: store.currentCapacity, label: '' }]}
           />
 
-          <Grid container direction="row" justify="space-between" className={classes.sliderText}>
+          <Grid container direction="row" justify="space-between">
             <Typography variant="body1">0</Typography>
             <Typography variant="body1">{store.maxCapacity}</Typography>
           </Grid>
